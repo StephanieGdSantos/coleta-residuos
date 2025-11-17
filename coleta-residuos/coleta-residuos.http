@@ -1,0 +1,6 @@
+@coleta_residuos_HostAddress = http://localhost:5212
+
+GET {{coleta_residuos_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
