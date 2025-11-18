@@ -9,7 +9,7 @@ namespace coleta_residuos.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     public class PontoColetaController : ControllerBase
     {
         private readonly IService<PontoColetaModel> _pontoColetaService;

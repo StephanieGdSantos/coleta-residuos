@@ -9,7 +9,7 @@ namespace coleta_residuos.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     public class EventoColetaController : ControllerBase
     {
         private readonly IEventoColetaService _eventoColetaService;
