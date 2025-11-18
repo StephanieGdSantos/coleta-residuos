@@ -44,7 +44,7 @@ namespace coleta_residuos.Controllers
             return Ok(viewModel);
         }
 
-        [HttpGet("{id}/residuos")]
+        [HttpGet("{id}/Residuo")]
         public ActionResult<IEnumerable<ResiduoViewModel>> Get(int id,
             [FromQuery] int pagina = 0, [FromQuery] int tamanho = 10)
         {

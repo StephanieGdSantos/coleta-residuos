@@ -76,7 +76,7 @@ namespace coleta_residuos.Controllers
             return NoContent();
         }
 
-        [HttpGet("ponto-coleta/{pontoColetaId}")]
+        [HttpGet("PontoColeta/{pontoColetaId}")]
         public ActionResult<IEnumerable<EventoColetaViewModel>> Get(int pontoColetaId, [FromQuery] int pagina = 0, [FromQuery] int tamanho = 10)
         {
             var eventos = _eventoColetaService.ListarPorPontoDeColeta(pontoColetaId, pagina, tamanho);
