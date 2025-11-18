@@ -60,9 +60,10 @@ namespace coleta_residuos.Controllers
             var ponto = _mapper.Map<PontoColetaModel>(criarViewModel);
             _pontoColetaService.Criar(ponto);
 
-            var viewModel = _mapper.Map<PontoColetaViewModel>(ponto);
-            return CreatedAtAction(nameof(Post), new { id = ponto.Id }, viewModel);
+            var result = _mapper.Map<PontoColetaViewModel>(ponto);
+            return CreatedAtAction(nameof(Post), new { id = ponto.Id }, result);
         }
+
 
         [HttpPut("{id}")]
         public ActionResult Put(int id, [FromBody] AtualizarPontoColetaViewModel atualizarViewModel)
@@ -71,8 +72,9 @@ namespace coleta_residuos.Controllers
             if (pontoExistente == null)
                 return NotFound();
 
-            var ponto = _mapper.Map(atualizarViewModel, pontoExistente);
-            _pontoColetaService.Atualizar(ponto);
+            _mapper.Map(atualizarViewModel, pontoExistente);
+            _pontoColetaService.Atualizar(pontoExistente);
+
             return NoContent();
         }
 

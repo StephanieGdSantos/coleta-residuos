@@ -1,3 +1,4 @@
+using AutoMapper;
 using coleta_residuos.Data.Contexts;
 using coleta_residuos.Data.Repository;
 using coleta_residuos.Data.Repository.Impl;
@@ -46,8 +47,10 @@ var mapperConfig = new AutoMapper.MapperConfiguration(c => {
     c.CreateMap<AlertaModel, AlertaViewModel>();
     c.CreateMap<ColetaAgendadaModel, ColetaAgendadaViewModel>();
     c.CreateMap<EventoColetaModel, EventoColetaViewModel>();
-    c.CreateMap<PontoColetaModel, PontoColetaViewModel>();
     c.CreateMap<ResiduoModel, ResiduoViewModel>();
+    c.CreateMap<PontoColetaModel, PontoColetaViewModel>()
+        .ForMember(dest => dest.ResiduosIds, opt => opt.MapFrom(src =>
+            src.PontosColetaResiduos.Select(pcr => pcr.ResiduoId).ToList()));
 
     c.CreateMap<AlertaViewModel, AlertaModel>();
     c.CreateMap<ColetaAgendadaViewModel, ColetaAgendadaModel>();
@@ -65,9 +68,16 @@ var mapperConfig = new AutoMapper.MapperConfiguration(c => {
 
     c.CreateMap<AtualizarAlertaViewModel, AlertaModel>();
     c.CreateMap<AtualizarColetaAgendadaViewModel, ColetaAgendadaModel>();
-    c.CreateMap<AtualizarPontoColetaViewModel, PontoColetaModel>();
-    c.CreateMap<AtualizarResiduoViewModel, EventoColetaModel>();
+    c.CreateMap<AtualizarResiduoViewModel, ResiduoModel>();
+    c.CreateMap<AtualizarEventoColetaViewModel, EventoColetaModel>();
+    c.CreateMap<AtualizarPontoColetaViewModel, PontoColetaModel>()
+        .ForMember(dest => dest.PontosColetaResiduos, opt => opt.MapFrom(src =>
+        src.PontosColetaResiduos.Select(id => new PontoColetaResiduoModel { ResiduoId = id }).ToList()));
 });
+
+IMapper mapper = mapperConfig.CreateMapper();
+
+builder.Services.AddSingleton(mapper);
 
 #endregion
 

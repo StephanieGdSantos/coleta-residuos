@@ -38,7 +38,12 @@ namespace coleta_residuos.Data.Repository.Impl
             return pontosColeta;
         }
 
-        public PontoColetaModel GetById(int id) => _context.PontosColeta.Find(id);
+        public PontoColetaModel GetById(int id)
+        {
+            return _context.PontosColeta
+                .Include(pc => pc.PontosColetaResiduos)
+                .FirstOrDefault(pc => pc.Id == id);
+        }
 
         public void Add(PontoColetaModel pontoColeta)
         {
