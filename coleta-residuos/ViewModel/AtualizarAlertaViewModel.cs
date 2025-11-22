@@ -3,8 +3,8 @@
     public class AtualizarAlertaViewModel
     {
         public int Id { get; set; }
-        public string Titulo { get; set; }
-        public string Descricao { get; set; }
-        public DateTime DataAlerta { get; set; }
+        public int PontoColetaId { get; set; }
+        public string Mensagem { get; set; }
+        public bool Resolvido { get; set; }
     }
 }

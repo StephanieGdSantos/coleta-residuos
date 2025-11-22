@@ -5,7 +5,7 @@
         public int Id { get; set; }
         public DateTime DataAgendada { get; set; }
         public string? Observacao { get; set; }
-        public int PontoColetaId { get; set; }
+        public PontoColetaViewModel PontoColeta { get; set; }
     }
 
 }

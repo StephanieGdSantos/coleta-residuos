@@ -3,7 +3,8 @@
     public class AtualizarColetaAgendadaViewModel
     {
         public int Id { get; set; }
-        public DateTime DataColeta { get; set; }
+        public DateTime DataAgendada { get; set; }
+        public string? Observacao { get; set; }
         public int PontoColetaId { get; set; }
     }
 }

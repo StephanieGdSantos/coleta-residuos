@@ -4,6 +4,7 @@ namespace coleta_residuos.ViewModel
 {
     public class AtualizarPontoColetaViewModel
     {
+        public int Id { get; set; }
         public string Nome { get; set; }
         public string Endereco { get; set; }
         public int CapacidadeMaximaKg { get; set; }
