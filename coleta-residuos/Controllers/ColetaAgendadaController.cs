@@ -28,6 +28,7 @@ namespace coleta_residuos.Controllers
         public ActionResult<IEnumerable<ColetaAgendadaViewModel>> Get([FromQuery] int pagina = 0, [FromQuery] int tamanho = 10)
         {
             var coletas = _coletaAgendadaService.Listar(pagina, tamanho);
+
             var viewModels = _mapper.Map<IEnumerable<ColetaAgendadaViewModel>>(coletas);
             return Ok(viewModels);
         }
@@ -75,7 +76,8 @@ namespace coleta_residuos.Controllers
             return NoContent();
         }
 
-        [HttpGet("PontoColeta/{pontoColetaId}")]
+        [HttpGet]
+        [Route("/api/PontoColeta/{pontoColetaId}/ColetaAgendada")]
         public ActionResult<IEnumerable<ColetaAgendadaViewModel>> Get(int pontoColetaId, [FromQuery] int pagina = 0, [FromQuery] int tamanho = 10)
         {
             var pontoColeta = _pontoColetaService.ObterPorId(pontoColetaId);

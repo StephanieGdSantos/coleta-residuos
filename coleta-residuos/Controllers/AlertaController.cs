@@ -80,7 +80,8 @@ namespace coleta_residuos.Controllers
             return NoContent();
         }
 
-        [HttpGet("PontoColeta/{pontoColetaId}")]
+        [HttpGet]
+        [Route("/api/PontoColeta/{pontoColetaId}/Alerta")]
         public ActionResult<IEnumerable<AlertaViewModel>> Get(int pontoColetaId, [FromQuery] int pagina = 0, [FromQuery] int tamanho = 10)
         {
             var pontoColeta = _pontoColetaService.ObterPorId(pontoColetaId);
