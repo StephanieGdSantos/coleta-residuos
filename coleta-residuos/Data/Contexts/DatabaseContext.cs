@@ -119,6 +119,10 @@ namespace coleta_residuos.Data.Contexts
                 entity.HasOne(e => e.PontoColeta)
                     .WithMany(pc => pc.EventosColeta)
                     .HasForeignKey(e => e.PontoColetaId);
+
+                entity.HasOne(e => e.Residuo)
+                    .WithMany()
+                    .HasForeignKey(e => e.ResiduoId);
             });
         }
 
