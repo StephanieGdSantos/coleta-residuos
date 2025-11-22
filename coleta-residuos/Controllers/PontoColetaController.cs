@@ -73,6 +73,9 @@ namespace coleta_residuos.Controllers
         [HttpPut("{id}")]
         public ActionResult Put(int id, [FromBody] AtualizarPontoColetaViewModel atualizarViewModel)
         {
+            if (id != atualizarViewModel.Id)
+                return BadRequest();
+
             var pontoExistente = _pontoColetaService.ObterPorId(id);
             if (pontoExistente == null)
                 return NotFound();

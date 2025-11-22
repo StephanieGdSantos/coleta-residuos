@@ -56,6 +56,9 @@ namespace coleta_residuos.Controllers
         [HttpPut("{id}")]
         public ActionResult Put(int id, [FromBody] AtualizarColetaAgendadaViewModel coletaViewModel)
         {
+            if (id != coletaViewModel.Id)
+                return BadRequest();
+
             var coletaExistente = _coletaAgendadaService.ObterPorId(id);
             if (coletaExistente == null)
                 return NotFound();
