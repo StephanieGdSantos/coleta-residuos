@@ -48,6 +48,13 @@ namespace coleta_residuos.Controllers
         public ActionResult<AlertaViewModel> Post([FromBody] CriarAlertaViewModel alertaViewModel)
         {
             var alerta = _mapper.Map<AlertaModel>(alertaViewModel);
+            alerta.DataAlerta = DateTime.UtcNow.AddHours(-3);
+
+            var pontoColeta = _pontoColetaService.ObterPorId(alerta.PontoColetaId);
+
+            if (pontoColeta == null)
+                return BadRequest("Ponto de Coleta não encontrado.");
+
             _alertaService.Criar(alerta);
 
             var viewModel = _mapper.Map<AlertaViewModel>(alerta);
