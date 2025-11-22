@@ -15,23 +15,12 @@ namespace coleta_residuos.Data.Repository.Impl
 
         public IEnumerable<EventoColetaModel> GetAll(int page, int size)
         {
-            return _context.EventosColeta.Include(e => e.PontoColeta)
+            return _context.EventosColeta
                             .Skip((page - 1) * page)
                             .Take(size)
                             .AsNoTracking()
-                            .ToList();
-        }
-
-        public IEnumerable<EventoColetaModel> GetAllReference(int lastReference, int size)
-        {
-            var eventosColeta = _context.EventosColeta.Include(e => e.PontoColeta)
-                                .Where(e => e.Id > lastReference)
-                                .OrderBy(e => e.Id)
-                                .Take(size)
-                                .AsNoTracking()
-                                .ToList();
-
-            return eventosColeta;
+                            .ToList()
+                            .OrderBy(e => e.Id);
         }
 
         public EventoColetaModel GetById(int id) => _context.EventosColeta.Find(id);

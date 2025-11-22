@@ -16,22 +16,22 @@ namespace coleta_residuos.Data.Repository.Impl
         public IEnumerable<ColetaAgendadaModel> GetAll(int page, int size)
         {
             return _context.ColetasAgendadas.Include(c => c.PontoColeta)
+                                .ThenInclude(c => c.PontosColetaResiduos)
+                                    .ThenInclude(c => c.Residuo)
                             .Skip((page - 1) * page)
                             .Take(size)
                             .AsNoTracking()
                             .ToList();
         }
 
-        public IEnumerable<ColetaAgendadaModel> GetAllReference(int lastReference, int size)
+        public ColetaAgendadaModel GetById(int id)
         {
-            var coletasAgendadas = _context.ColetasAgendadas.Include(c => c.PontoColeta)
-                                .Where(c => c.Id > lastReference)
-                                .OrderBy(c => c.Id)
-                                .Take(size)
-                                .AsNoTracking()
-                                .ToList();
-
-            return coletasAgendadas;
+            return _context.ColetasAgendadas
+                .Include(c => c.PontoColeta)
+                    .ThenInclude(c => c.PontosColetaResiduos)
+                        .ThenInclude(c => c.Residuo)
+                .AsNoTracking()
+                .FirstOrDefault(c => c.Id == id); 
         }
 
         public void Add(ColetaAgendadaModel coletaAgendada)

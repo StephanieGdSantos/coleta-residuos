@@ -27,9 +27,10 @@ namespace coleta_residuos.Data.Repository.Impl
         public IEnumerable<PontoColetaModel> GetPontosColetaPorResiduoId(int residuoId, 
             int pagina = 0, int tamanho = 10)
         {
-            return _context.PontoColetaResiduos
-                .Where(pcr => pcr.ResiduoId == residuoId)
-                .Select(pcr => pcr.PontoColeta)
+            return _context.PontosColeta
+                .Include(pc => pc.PontosColetaResiduos)
+                    .ThenInclude(pcr => pcr.Residuo)
+                .Where(pc => pc.PontosColetaResiduos.Any(pcr => pcr.ResiduoId == residuoId))
                 .Skip(pagina * tamanho)
                 .Take(tamanho)
                 .ToList();

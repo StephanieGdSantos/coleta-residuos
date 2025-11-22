@@ -16,22 +16,23 @@ namespace coleta_residuos.Data.Repository.Impl
         public IEnumerable<AlertaModel> GetAll(int page, int size)
         {
             return _context.Alertas.Include(a => a.PontoColeta)
+                                .ThenInclude(a => a.PontosColetaResiduos)
+                                    .ThenInclude(a => a.Residuo)
                             .Skip((page - 1) * page)
                             .Take(size)
                             .AsNoTracking()
-                            .ToList();
+                            .ToList()
+                            .OrderBy(a => a.Id);
         }
 
-        public IEnumerable<AlertaModel> GetAllReference(int lastReference, int size)
+        public AlertaModel GetById(int id)
         {
-            var alertas = _context.Alertas.Include(a => a.PontoColeta)
-                                .Where(a => a.Id > lastReference)
-                                .OrderBy(a => a.Id)
-                                .Take(size)
-                                .AsNoTracking()
-                                .ToList();
-
-            return alertas;
+            return _context.Alertas
+                .Include(c => c.PontoColeta)
+                    .ThenInclude(c => c.PontosColetaResiduos)
+                        .ThenInclude(c => c.Residuo)
+                .AsNoTracking()
+                .FirstOrDefault(c => c.Id == id);
         }
 
         public void Add(AlertaModel alerta)

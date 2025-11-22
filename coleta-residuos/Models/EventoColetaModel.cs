@@ -7,6 +7,8 @@ namespace coleta_residuos.Models
         public int Id { get; set; }
         public int PontoColetaId { get; set; }
         public PontoColetaModel PontoColeta { get; set; }
+        public int ResiduoId { get; set; }
+        public ResiduoModel Residuo { get; set; }
 
         public DateTime DataEvento { get; set; }
         public double QuantidadeKg { get; set; }

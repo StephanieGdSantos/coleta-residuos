@@ -40,7 +40,7 @@ builder.Services.AddScoped<IPontoColetaResiduoService, PontoColetaResiduoService
 
 #region AutoMapper
 
-var mapperConfig = new AutoMapper.MapperConfiguration(c => {
+var mapperConfig = new MapperConfiguration(c => {
     c.AllowNullCollections = true;
     c.AllowNullDestinationValues = true;
 
@@ -49,13 +49,15 @@ var mapperConfig = new AutoMapper.MapperConfiguration(c => {
     c.CreateMap<EventoColetaModel, EventoColetaViewModel>();
     c.CreateMap<ResiduoModel, ResiduoViewModel>();
     c.CreateMap<PontoColetaModel, PontoColetaViewModel>()
-        .ForMember(dest => dest.ResiduosIds, opt => opt.MapFrom(src =>
-            src.PontosColetaResiduos.Select(pcr => pcr.ResiduoId).ToList()));
+        .ForMember(dest => dest.Residuos, opt => opt.MapFrom(src =>
+            src.PontosColetaResiduos.Select(pcr => pcr.Residuo).ToList()));
 
     c.CreateMap<AlertaViewModel, AlertaModel>();
     c.CreateMap<ColetaAgendadaViewModel, ColetaAgendadaModel>();
     c.CreateMap<EventoColetaViewModel, EventoColetaModel>();
-    c.CreateMap<PontoColetaViewModel, PontoColetaModel>();
+    c.CreateMap<PontoColetaViewModel, PontoColetaModel>()
+    .ForMember(dest => dest.PontosColetaResiduos, opt => opt.MapFrom(src =>
+        src.Residuos.Select(residuo => new PontoColetaResiduoModel { ResiduoId = residuo.Id }).ToList()));
     c.CreateMap<ResiduoViewModel, ResiduoModel>();
 
     c.CreateMap<CriarAlertaViewModel, AlertaModel>();
