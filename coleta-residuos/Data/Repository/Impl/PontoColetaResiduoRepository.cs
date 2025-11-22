@@ -1,5 +1,6 @@
 ﻿using coleta_residuos.Data.Contexts;
 using coleta_residuos.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace coleta_residuos.Data.Repository.Impl
 {

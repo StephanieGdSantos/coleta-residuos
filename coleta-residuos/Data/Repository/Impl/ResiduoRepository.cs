@@ -13,10 +13,6 @@ namespace coleta_residuos.Data.Repository.Impl
             _context = context;
         }
 
-        public IEnumerable<ResiduoModel> GetAll() => _context.Residuos
-            .Include(a => a.PontosColetaResiduos)
-            .ToList();
-
         public IEnumerable<ResiduoModel> GetAll(int page, int size)
         {
             return _context.Residuos.Include(a => a.PontosColetaResiduos)
@@ -24,18 +20,6 @@ namespace coleta_residuos.Data.Repository.Impl
                             .Take(size)
                             .AsNoTracking()
                             .ToList();
-        }
-
-        public IEnumerable<ResiduoModel> GetAllReference(int lastReference, int size)
-        {
-            var residuos = _context.Residuos.Include(a => a.PontosColetaResiduos)
-                                .Where(a => a.Id > lastReference)
-                                .OrderBy(a => a.Id)
-                                .Take(size)
-                                .AsNoTracking()
-                                .ToList();
-
-            return residuos;
         }
 
         public ResiduoModel GetById(int id) => _context.Residuos.Find(id);

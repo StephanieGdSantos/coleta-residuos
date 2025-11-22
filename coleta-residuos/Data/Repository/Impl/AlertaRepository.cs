@@ -13,10 +13,6 @@ namespace coleta_residuos.Data.Repository.Impl
             _context = context;
         }
 
-        public IEnumerable<AlertaModel> GetAll() => _context.Alertas
-            .Include(a => a.PontoColeta)
-            .ToList();
-
         public IEnumerable<AlertaModel> GetAll(int page, int size)
         {
             return _context.Alertas.Include(a => a.PontoColeta)
@@ -37,8 +33,6 @@ namespace coleta_residuos.Data.Repository.Impl
 
             return alertas;
         }
-
-        public AlertaModel GetById(int id) => _context.Alertas.Find(id);
 
         public void Add(AlertaModel alerta)
         {

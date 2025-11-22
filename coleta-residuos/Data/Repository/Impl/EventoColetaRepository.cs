@@ -13,10 +13,6 @@ namespace coleta_residuos.Data.Repository.Impl
             _context = context;
         }
 
-        public IEnumerable<EventoColetaModel> GetAll() => _context.EventosColeta
-            .Include(e => e.PontoColeta)
-            .ToList();
-
         public IEnumerable<EventoColetaModel> GetAll(int page, int size)
         {
             return _context.EventosColeta.Include(e => e.PontoColeta)

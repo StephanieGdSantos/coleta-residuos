@@ -13,10 +13,6 @@ namespace coleta_residuos.Data.Repository.Impl
             _context = context;
         }
 
-        public IEnumerable<ColetaAgendadaModel> GetAll() => _context.ColetasAgendadas
-            .Include(c => c.PontoColeta)
-            .ToList();
-
         public IEnumerable<ColetaAgendadaModel> GetAll(int page, int size)
         {
             return _context.ColetasAgendadas.Include(c => c.PontoColeta)
@@ -37,8 +33,6 @@ namespace coleta_residuos.Data.Repository.Impl
 
             return coletasAgendadas;
         }
-
-        public ColetaAgendadaModel GetById(int id) => _context.ColetasAgendadas.Find(id);
 
         public void Add(ColetaAgendadaModel coletaAgendada)
         {
