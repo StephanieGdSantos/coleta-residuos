@@ -71,7 +71,7 @@ namespace coleta_residuos.Controllers
             if (existente == null)
                 return NotFound();
 
-            var alerta = _mapper.Map<AlertaModel>(alertaViewModel);
+            var alerta = _mapper.Map(alertaViewModel, existente);
             _alertaService.Atualizar(alerta);
             return NoContent();
         }

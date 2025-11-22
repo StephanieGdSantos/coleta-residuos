@@ -63,7 +63,7 @@ namespace coleta_residuos.Controllers
             if (existente == null)
                 return NotFound();
 
-            var evento = _mapper.Map<EventoColetaModel>(eventoViewModel);
+            var evento = _mapper.Map(eventoViewModel, existente);
             _eventoColetaService.Atualizar(evento);
             return NoContent();
         }

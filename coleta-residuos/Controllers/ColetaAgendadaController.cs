@@ -60,7 +60,7 @@ namespace coleta_residuos.Controllers
             if (coletaExistente == null)
                 return NotFound();
 
-            var coleta = _mapper.Map<ColetaAgendadaModel>(coletaViewModel);
+            var coleta = _mapper.Map(coletaViewModel, coletaExistente);
             _coletaAgendadaService.Atualizar(coleta);
             return NoContent();
         }

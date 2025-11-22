@@ -29,7 +29,8 @@ namespace coleta_residuos.Controllers
             [FromQuery] int tamanho = 10)
         {
             var pontos = _pontoColetaService.Listar(pagina, tamanho);
-            var viewModels = _mapper.Map<IEnumerable<PontoColetaViewModel>>(pontos);
+            var pontosColetaViewModel = new List<PontoColetaViewModel>();
+            var viewModels = _mapper.Map(pontos, pontosColetaViewModel);
             return Ok(viewModels);
         }
 
