@@ -27,14 +27,23 @@ namespace coleta_residuos.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<ResiduoViewModel>> Get([FromQuery] int pagina = 0, [FromQuery] int tamanho = 10)
         {
+            try
+            {
             var residuos = _residuoService.Listar(pagina, tamanho);
             var viewModels = _mapper.Map<IEnumerable<ResiduoViewModel>>(residuos);
             return Ok(viewModels);
+        }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("{id}")]
         public ActionResult<ResiduoViewModel> Get(int id)
         {
+            try
+            {
             var residuo = _residuoService.ObterPorId(id);
             if (residuo == null)
                 return NotFound();
@@ -42,11 +51,18 @@ namespace coleta_residuos.Controllers
             var viewModel = _mapper.Map<ResiduoViewModel>(residuo);
             return Ok(viewModel);
         }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpGet("{id}/PontoColeta")]
         public ActionResult<IEnumerable<PontoColetaViewModel>> Get(int id, 
             [FromQuery] int pagina = 0, [FromQuery] int tamanho = 10)
         {
+            try
+            {
             var residuo = _residuoService.ObterPorId(id);
             if (residuo == null)
                 return NotFound("Resíduo não encontrado.");
@@ -56,6 +72,11 @@ namespace coleta_residuos.Controllers
             var pontosColetaViewModels = _mapper.Map<IEnumerable<PontoColetaViewModel>>(pontos);
             return Ok(pontosColetaViewModels);
         }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpPost]
         public ActionResult<ResiduoViewModel> Post([FromBody] CriarResiduoViewModel criarViewModel)
@@ -63,8 +84,13 @@ namespace coleta_residuos.Controllers
             var residuo = _mapper.Map<ResiduoModel>(criarViewModel);
             _residuoService.Criar(residuo);
 
-            var viewModel = _mapper.Map<ResiduoViewModel>(residuo);
-            return CreatedAtAction(nameof(Post), new { id = residuo.Id }, viewModel);
+            try
+            {
+        }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("{id}")]
@@ -73,24 +99,36 @@ namespace coleta_residuos.Controllers
             if (id.ToString() != atualizarViewModel.Id)
                 return BadRequest();
 
-            var existente = _residuoService.ObterPorId(id);
-            if (existente == null)
+            try
+            {
                 return NotFound();
 
             var residuo = _mapper.Map(atualizarViewModel, existente);
             _residuoService.Atualizar(residuo);
             return NoContent();
         }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
+            try
+            {
             var residuo = _residuoService.ObterPorId(id);
             if (residuo == null)
                 return NotFound();
 
             _residuoService.Deletar(id);
             return NoContent();
+        }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

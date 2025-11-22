@@ -28,35 +28,52 @@ namespace coleta_residuos.Controllers
         public ActionResult<IEnumerable<PontoColetaViewModel>> Get([FromQuery] int pagina = 0, 
             [FromQuery] int tamanho = 10)
         {
+            try
+            {
             var pontos = _pontoColetaService.Listar(pagina, tamanho);
             var pontosColetaViewModel = new List<PontoColetaViewModel>();
             var viewModels = _mapper.Map(pontos, pontosColetaViewModel);
             return Ok(viewModels);
         }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpGet("{id}")]
         public ActionResult<PontoColetaViewModel> Get(int id)
         {
-            var ponto = _pontoColetaService.ObterPorId(id);
-            if (ponto == null)
+            try
+            {
                 return NotFound();
 
             var viewModel = _mapper.Map<PontoColetaViewModel>(ponto);
             return Ok(viewModel);
+        }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("{id}/Residuo")]
         public ActionResult<IEnumerable<ResiduoViewModel>> Get(int id,
             [FromQuery] int pagina = 0, [FromQuery] int tamanho = 10)
         {
-            var ponto = _pontoColetaService.ObterPorId(id);
-            if (ponto == null)
+            try
+            {
                 return NotFound("Ponto de oleta não encontrado.");
 
             var residuos = _pontoColetaResiduoService.ListarResiduosDoPontoDeColeta(id, pagina, tamanho);
 
             var viewModels = _mapper.Map<IEnumerable<ResiduoViewModel>>(residuos);
             return Ok(viewModels);
+        }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
@@ -65,8 +82,13 @@ namespace coleta_residuos.Controllers
             var ponto = _mapper.Map<PontoColetaModel>(criarViewModel);
             _pontoColetaService.Criar(ponto);
 
-            var result = _mapper.Map<PontoColetaViewModel>(ponto);
-            return CreatedAtAction(nameof(Post), new { id = ponto.Id }, result);
+            try
+            {
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
@@ -76,6 +98,8 @@ namespace coleta_residuos.Controllers
             if (id != atualizarViewModel.Id)
                 return BadRequest();
 
+            try
+            {
             var pontoExistente = _pontoColetaService.ObterPorId(id);
             if (pontoExistente == null)
                 return NotFound();
@@ -85,16 +109,28 @@ namespace coleta_residuos.Controllers
 
             return NoContent();
         }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
+            try
+            {
             var ponto = _pontoColetaService.ObterPorId(id);
             if (ponto == null)
                 return NotFound();
 
             _pontoColetaService.Deletar(id);
             return NoContent();
+        }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

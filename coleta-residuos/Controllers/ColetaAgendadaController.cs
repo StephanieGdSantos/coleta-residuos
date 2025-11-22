@@ -27,20 +27,34 @@ namespace coleta_residuos.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<ColetaAgendadaViewModel>> Get([FromQuery] int pagina = 0, [FromQuery] int tamanho = 10)
         {
+            try
+            {
             var coletas = _coletaAgendadaService.Listar(pagina, tamanho);
 
             var viewModels = _mapper.Map<IEnumerable<ColetaAgendadaViewModel>>(coletas);
             return Ok(viewModels);
         }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocorreu um erro interno no servidor.");
+            }
+        }
 
         [HttpGet("{id}")]
         public ActionResult<ColetaAgendadaViewModel> Get(int id)
         {
+            try
+            {
             var coleta = _coletaAgendadaService.ObterPorId(id);
             if (coleta == null)
                 return NotFound();
             var viewModel = _mapper.Map<ColetaAgendadaViewModel>(coleta);
             return Ok(viewModel);
+        }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
@@ -49,8 +63,13 @@ namespace coleta_residuos.Controllers
             var coleta = _mapper.Map<ColetaAgendadaModel>(coletaViewModel);
             _coletaAgendadaService.Criar(coleta);
 
-            var viewModel = _mapper.Map<ColetaAgendadaViewModel>(coleta);
-            return CreatedAtAction(nameof(Post), new { id = coleta.Id }, viewModel);
+            try
+            {
+        }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("{id}")]
@@ -59,6 +78,8 @@ namespace coleta_residuos.Controllers
             if (id != coletaViewModel.Id)
                 return BadRequest();
 
+            try
+            {
             var coletaExistente = _coletaAgendadaService.ObterPorId(id);
             if (coletaExistente == null)
                 return NotFound();
@@ -67,10 +88,17 @@ namespace coleta_residuos.Controllers
             _coletaAgendadaService.Atualizar(coleta);
             return NoContent();
         }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
+            try
+            {
             var coleta = _coletaAgendadaService.ObterPorId(id);
             if (coleta == null)
                 return NotFound();
@@ -78,11 +106,18 @@ namespace coleta_residuos.Controllers
             _coletaAgendadaService.Deletar(id);
             return NoContent();
         }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpGet]
         [Route("/api/PontoColeta/{pontoColetaId}/ColetaAgendada")]
         public ActionResult<IEnumerable<ColetaAgendadaViewModel>> Get(int pontoColetaId, [FromQuery] int pagina = 0, [FromQuery] int tamanho = 10)
         {
+            try
+            {
             var pontoColeta = _pontoColetaService.ObterPorId(pontoColetaId);
             if (pontoColeta == null)
                 return NotFound("Ponto de coleta não encontrado.");
@@ -91,6 +126,11 @@ namespace coleta_residuos.Controllers
 
             var viewModels = _mapper.Map<IEnumerable<ColetaAgendadaViewModel>>(coletas);
             return Ok(viewModels);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
