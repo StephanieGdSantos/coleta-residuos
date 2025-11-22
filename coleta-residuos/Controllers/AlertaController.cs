@@ -29,11 +29,11 @@ namespace coleta_residuos.Controllers
         {
             try
             {
-            var alertas = _alertaService.Listar(pagina, tamanho);
+                var alertas = _alertaService.Listar(pagina, tamanho);
 
-            var viewModels = _mapper.Map<IEnumerable<AlertaViewModel>>(alertas);
-            return Ok(viewModels);
-        }
+                var alertasViewModel = _mapper.Map<IEnumerable<AlertaViewModel>>(alertas);
+                return Ok(alertasViewModel);
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -45,13 +45,13 @@ namespace coleta_residuos.Controllers
         {
             try
             {
-            var alerta = _alertaService.ObterPorId(id);
-            if (alerta == null)
-                return NotFound();
+                var alerta = _alertaService.ObterPorId(id);
+                if (alerta == null)
+                    return NotFound();
 
-            var viewModel = _mapper.Map<AlertaViewModel>(alerta);
-            return Ok(viewModel);
-        }
+                var alertaViewModel = _mapper.Map<AlertaViewModel>(alerta);
+                return Ok(alertaViewModel);
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -59,22 +59,21 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpPost]
-        public ActionResult<AlertaViewModel> Post([FromBody] CriarAlertaViewModel alertaViewModel)
+        public ActionResult<AlertaViewModel> Post([FromBody] CriarAlertaViewModel criarAlertaViewModel)
         {
-            var alerta = _mapper.Map<AlertaModel>(alertaViewModel);
+            var alerta = _mapper.Map<AlertaModel>(criarAlertaViewModel);
             alerta.DataAlerta = DateTime.UtcNow.AddHours(-3);
 
             try
             {
+                var pontoColetaExistente = _pontoColetaService.ObterPorId(alerta.PontoColetaId);
 
-            if (pontoColeta == null)
-                return BadRequest("Ponto de Coleta não encontrado.");
+                if (pontoColetaExistente == null)
+                    return BadRequest("Ponto de Coleta não encontrado.");
 
-            _alertaService.Criar(alerta);
-
-            var viewModel = _mapper.Map<AlertaViewModel>(alerta);
-            return CreatedAtAction(nameof(Post), new { id = alerta.Id }, viewModel);
-        }
+                _alertaService.Criar(alerta);
+                return CreatedAtAction(nameof(Post), new { id = alerta.Id }, criarAlertaViewModel);
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -82,21 +81,21 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] AtualizarAlertaViewModel alertaViewModel)
+        public ActionResult Put(int id, [FromBody] AtualizarAlertaViewModel atualizarAlertaViewModel)
         {
-            if (id != alertaViewModel.Id)
+            if (id != atualizarAlertaViewModel.Id)
                 return BadRequest();
 
             try
             {
                 var alertaExistente = _alertaService.ObterPorId(id);
                 if (alertaExistente == null)
-                return NotFound();
+                    return NotFound();
 
-            var alerta = _mapper.Map(alertaViewModel, existente);
-            _alertaService.Atualizar(alerta);
-            return NoContent();
-        }
+                _mapper.Map(atualizarAlertaViewModel, alertaExistente);
+                _alertaService.Atualizar(alertaExistente);
+                return NoContent();
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -108,13 +107,13 @@ namespace coleta_residuos.Controllers
         {
             try
             {
-            var alerta = _alertaService.ObterPorId(id);
-            if (alerta == null)
-                return NotFound();
+                var alerta = _alertaService.ObterPorId(id);
+                if (alerta == null)
+                    return NotFound();
 
-            _alertaService.Deletar(id);
-            return NoContent();
-        }
+                _alertaService.Deletar(id);
+                return NoContent();
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -123,17 +122,19 @@ namespace coleta_residuos.Controllers
 
         [HttpGet]
         [Route("/api/PontoColeta/{pontoColetaId}/Alerta")]
-        public ActionResult<IEnumerable<AlertaViewModel>> Get(int pontoColetaId, [FromQuery] int pagina = 0, [FromQuery] int tamanho = 10)
-            try
+        public ActionResult<IEnumerable<AlertaViewModel>> Get(int pontoColetaId, [FromQuery] int pagina = 0, 
+            [FromQuery] int tamanho = 10)
         {
-            var pontoColeta = _pontoColetaService.ObterPorId(pontoColetaId);
-            if (pontoColeta == null)
-                return NotFound("Ponto de coleta não encontrado.");
+            try
+            {
+                var pontoColeta = _pontoColetaService.ObterPorId(pontoColetaId);
+                if (pontoColeta == null)
+                    return NotFound("Ponto de coleta não encontrado.");
 
-            var alertas = _alertaService.ListarPorPontoDeColeta(pontoColetaId, pagina, tamanho);
+                var alertas = _alertaService.ListarPorPontoDeColeta(pontoColetaId, pagina, tamanho);
 
-            var viewModels = _mapper.Map<IEnumerable<AlertaViewModel>>(alertas);
-            return Ok(viewModels);
+                var alertasViewModel = _mapper.Map<IEnumerable<AlertaViewModel>>(alertas);
+                return Ok(alertasViewModel);
             }
             catch (Exception ex)
             {

@@ -25,16 +25,16 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<PontoColetaViewModel>> Get([FromQuery] int pagina = 0, 
+        public ActionResult<IEnumerable<PontoColetaViewModel>> Get([FromQuery] int pagina = 0,
             [FromQuery] int tamanho = 10)
         {
             try
             {
-            var pontos = _pontoColetaService.Listar(pagina, tamanho);
-            var pontosColetaViewModel = new List<PontoColetaViewModel>();
-            var viewModels = _mapper.Map(pontos, pontosColetaViewModel);
-            return Ok(viewModels);
-        }
+                var pontos = _pontoColetaService.Listar(pagina, tamanho);
+
+                var pontosColetaViewModel = _mapper.Map<IEnumerable<PontoColetaViewModel>>(pontos);
+                return Ok(pontosColetaViewModel);
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -46,11 +46,13 @@ namespace coleta_residuos.Controllers
         {
             try
             {
-                return NotFound();
+                var pontoColeta = _pontoColetaService.ObterPorId(id);
+                if (pontoColeta == null)
+                    return NotFound();
 
-            var viewModel = _mapper.Map<PontoColetaViewModel>(ponto);
-            return Ok(viewModel);
-        }
+                var pontoColetaViewModel = _mapper.Map<PontoColetaViewModel>(pontoColeta);
+                return Ok(pontoColetaViewModel);
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -63,13 +65,15 @@ namespace coleta_residuos.Controllers
         {
             try
             {
-                return NotFound("Ponto de oleta não encontrado.");
+                var pontoColeta = _pontoColetaService.ObterPorId(id);
+                if (pontoColeta == null)
+                    return NotFound("Ponto de coleta não encontrado.");
 
-            var residuos = _pontoColetaResiduoService.ListarResiduosDoPontoDeColeta(id, pagina, tamanho);
+                var residuos = _pontoColetaResiduoService.ListarResiduosDoPontoDeColeta(id, pagina, tamanho);
 
-            var viewModels = _mapper.Map<IEnumerable<ResiduoViewModel>>(residuos);
-            return Ok(viewModels);
-        }
+                var residuosViewModel = _mapper.Map<IEnumerable<ResiduoViewModel>>(residuos);
+                return Ok(residuosViewModel);
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -79,11 +83,12 @@ namespace coleta_residuos.Controllers
         [HttpPost]
         public ActionResult<PontoColetaViewModel> Post([FromBody] CriarPontoColetaViewModel criarViewModel)
         {
-            var ponto = _mapper.Map<PontoColetaModel>(criarViewModel);
-            _pontoColetaService.Criar(ponto);
+            var pontoColeta = _mapper.Map<PontoColetaModel>(criarViewModel);
 
             try
             {
+                _pontoColetaService.Criar(pontoColeta);
+                return CreatedAtAction(nameof(Post), new { id = pontoColeta.Id }, criarViewModel);
             }
             catch (Exception ex)
             {
@@ -100,15 +105,15 @@ namespace coleta_residuos.Controllers
 
             try
             {
-            var pontoExistente = _pontoColetaService.ObterPorId(id);
-            if (pontoExistente == null)
-                return NotFound();
+                var pontoExistente = _pontoColetaService.ObterPorId(id);
+                if (pontoExistente == null)
+                    return NotFound();
 
-            _mapper.Map(atualizarViewModel, pontoExistente);
-            _pontoColetaService.Atualizar(pontoExistente);
+                _mapper.Map(atualizarViewModel, pontoExistente);
+                _pontoColetaService.Atualizar(pontoExistente);
 
-            return NoContent();
-        }
+                return NoContent();
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -120,13 +125,13 @@ namespace coleta_residuos.Controllers
         {
             try
             {
-            var ponto = _pontoColetaService.ObterPorId(id);
-            if (ponto == null)
-                return NotFound();
+                var ponto = _pontoColetaService.ObterPorId(id);
+                if (ponto == null)
+                    return NotFound();
 
-            _pontoColetaService.Deletar(id);
-            return NoContent();
-        }
+                _pontoColetaService.Deletar(id);
+                return NoContent();
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);

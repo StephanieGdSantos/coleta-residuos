@@ -28,10 +28,12 @@ namespace coleta_residuos.Controllers
         public ActionResult<IEnumerable<EventoColetaViewModel>> Get([FromQuery] int pagina = 0, [FromQuery] int tamanho = 10)
         {
             try
-            var eventos = _eventoColetaService.Listar(pagina, tamanho);
-            var viewModels = _mapper.Map<IEnumerable<EventoColetaViewModel>>(eventos);
-            return Ok(viewModels);
-        }
+            {
+                var eventos = _eventoColetaService.Listar(pagina, tamanho);
+
+                var eventosViewModel = _mapper.Map<IEnumerable<EventoColetaViewModel>>(eventos);
+                return Ok(eventosViewModel);
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -43,13 +45,13 @@ namespace coleta_residuos.Controllers
         {
             try
             {
-            var evento = _eventoColetaService.ObterPorId(id);
-            if (evento == null)
-                return NotFound();
+                var evento = _eventoColetaService.ObterPorId(id);
+                if (evento == null)
+                    return NotFound();
 
-            var viewModel = _mapper.Map<EventoColetaViewModel>(evento);
-            return Ok(viewModel);
-        }
+                var eventoViewModel = _mapper.Map<EventoColetaViewModel>(evento);
+                return Ok(eventoViewModel);
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -57,14 +59,15 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpPost]
-        public ActionResult<EventoColetaViewModel> Post([FromBody] CriarEventoColetaViewModel eventoViewModel)
+        public ActionResult<EventoColetaViewModel> Post([FromBody] CriarEventoColetaViewModel criarEventoViewModel)
         {
-            var evento = _mapper.Map<EventoColetaModel>(eventoViewModel);
-            _eventoColetaService.Criar(evento);
+            var evento = _mapper.Map<EventoColetaModel>(criarEventoViewModel);
 
             try
             {
-        }
+                _eventoColetaService.Criar(evento);
+                return CreatedAtAction(nameof(Post), new { id = evento.Id }, criarEventoViewModel);
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -72,19 +75,21 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] AtualizarEventoColetaViewModel eventoViewModel)
+        public ActionResult Put(int id, [FromBody] AtualizarEventoColetaViewModel atualizarEventoViewModel)
         {
-            if (id != eventoViewModel.Id)
+            if (id != atualizarEventoViewModel.Id)
                 return BadRequest();
 
             try
             {
-                return NotFound();
+                var eventoExistente = _eventoColetaService.ObterPorId(id);
+                if (eventoExistente == null)
+                    return NotFound();
 
-            var evento = _mapper.Map(eventoViewModel, existente);
-            _eventoColetaService.Atualizar(evento);
-            return NoContent();
-        }
+                _mapper.Map(atualizarEventoViewModel, eventoExistente);
+                _eventoColetaService.Atualizar(eventoExistente);
+                return NoContent();
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -96,13 +101,13 @@ namespace coleta_residuos.Controllers
         {
             try
             {
-            var evento = _eventoColetaService.ObterPorId(id);
-            if (evento == null)
-                return NotFound();
+                var evento = _eventoColetaService.ObterPorId(id);
+                if (evento == null)
+                    return NotFound();
 
-            _eventoColetaService.Deletar(id);
-            return NoContent();
-        }
+                _eventoColetaService.Deletar(id);
+                return NoContent();
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -116,12 +121,14 @@ namespace coleta_residuos.Controllers
         {
             try
             {
-                return NotFound("Ponto de coleta não encontrado.");
+                var pontoColetaExistente = _pontoColetaService.ObterPorId(pontoColetaId);
+                if (pontoColetaExistente == null)
+                    return NotFound("Ponto de coleta não encontrado.");
 
-            var eventos = _eventoColetaService.ListarPorPontoDeColeta(pontoColetaId, pagina, tamanho);
+                var eventos = _eventoColetaService.ListarPorPontoDeColeta(pontoColetaId, pagina, tamanho);
 
-            var viewModels = _mapper.Map<IEnumerable<EventoColetaViewModel>>(eventos);
-            return Ok(viewModels);
+                var eventosViewModel = _mapper.Map<IEnumerable<EventoColetaViewModel>>(eventos);
+                return Ok(eventosViewModel);
             }
             catch (Exception ex)
             {
