@@ -2,7 +2,6 @@
 using coleta_residuos.Models;
 using coleta_residuos.Services;
 using coleta_residuos.ViewModel;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace coleta_residuos.Controllers
@@ -13,11 +12,14 @@ namespace coleta_residuos.Controllers
     public class AlertaController : ControllerBase
     {
         private readonly IAlertaService _alertaService;
+        private readonly IService<PontoColetaModel> _pontoColetaService;
         private readonly IMapper _mapper;
 
-        public AlertaController(IAlertaService alertaService, IMapper mapper)
+        public AlertaController(IAlertaService alertaService, IService<PontoColetaModel> pontoColetaService, 
+            IMapper mapper)
         {
             _alertaService = alertaService;
+            _pontoColetaService = pontoColetaService;
             _mapper = mapper;
         }
 
@@ -81,6 +83,10 @@ namespace coleta_residuos.Controllers
         [HttpGet("PontoColeta/{pontoColetaId}")]
         public ActionResult<IEnumerable<AlertaViewModel>> Get(int pontoColetaId, [FromQuery] int pagina = 0, [FromQuery] int tamanho = 10)
         {
+            var pontoColeta = _pontoColetaService.ObterPorId(pontoColetaId);
+            if (pontoColeta == null)
+                return NotFound("Ponto de coleta não encontrado.");
+
             var alertas = _alertaService.ListarPorPontoDeColeta(pontoColetaId, pagina, tamanho);
 
             var viewModels = _mapper.Map<IEnumerable<AlertaViewModel>>(alertas);

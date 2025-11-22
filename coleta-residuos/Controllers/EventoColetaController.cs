@@ -13,11 +13,14 @@ namespace coleta_residuos.Controllers
     public class EventoColetaController : ControllerBase
     {
         private readonly IEventoColetaService _eventoColetaService;
+        private readonly IService<PontoColetaModel> _pontoColetaService;
         private readonly IMapper _mapper;
 
-        public EventoColetaController(IEventoColetaService eventoColetaService, IMapper mapper)
+        public EventoColetaController(IEventoColetaService eventoColetaService, 
+            IService<PontoColetaModel> pontoColetaService, IMapper mapper)
         {
             _eventoColetaService = eventoColetaService;
+            _pontoColetaService = pontoColetaService;
             _mapper = mapper;
         }
 
@@ -79,7 +82,12 @@ namespace coleta_residuos.Controllers
         [HttpGet("PontoColeta/{pontoColetaId}")]
         public ActionResult<IEnumerable<EventoColetaViewModel>> Get(int pontoColetaId, [FromQuery] int pagina = 0, [FromQuery] int tamanho = 10)
         {
+            var pontoColeta = _pontoColetaService.ObterPorId(pontoColetaId);
+            if (pontoColeta == null)
+                return NotFound("Ponto de coleta não encontrado.");
+
             var eventos = _eventoColetaService.ListarPorPontoDeColeta(pontoColetaId, pagina, tamanho);
+
             var viewModels = _mapper.Map<IEnumerable<EventoColetaViewModel>>(eventos);
             return Ok(viewModels);
         }

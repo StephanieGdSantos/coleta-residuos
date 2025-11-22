@@ -47,10 +47,14 @@ namespace coleta_residuos.Controllers
         public ActionResult<IEnumerable<PontoColetaViewModel>> Get(int id, 
             [FromQuery] int pagina = 0, [FromQuery] int tamanho = 10)
         {
+            var residuo = _residuoService.ObterPorId(id);
+            if (residuo == null)
+                return NotFound("Resíduo não encontrado.");
+
             var pontos = _pontoColetaResiduoService.ListarPontosDeColetaPorResiduo(id, pagina, tamanho);
 
-            var viewModels = _mapper.Map<IEnumerable<PontoColetaViewModel>>(pontos);
-            return Ok(viewModels);
+            var pontosColetaViewModels = _mapper.Map<IEnumerable<PontoColetaViewModel>>(pontos);
+            return Ok(pontosColetaViewModels);
         }
 
         [HttpPost]

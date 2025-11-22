@@ -13,11 +13,14 @@ namespace coleta_residuos.Controllers
     public class ColetaAgendadaController : ControllerBase
     {
         private readonly IColetaAgendadaService _coletaAgendadaService;
+        private readonly IService<PontoColetaModel> _pontoColetaService;
         private readonly IMapper _mapper;
 
-        public ColetaAgendadaController(IColetaAgendadaService coletaAgendadaService, IMapper mapper)
+        public ColetaAgendadaController(IColetaAgendadaService coletaAgendadaService, 
+            IService<PontoColetaModel> pontoColetaModel, IMapper mapper)
         {
             _coletaAgendadaService = coletaAgendadaService;
+            _pontoColetaService = pontoColetaModel;
             _mapper = mapper;
         }
 
@@ -75,6 +78,10 @@ namespace coleta_residuos.Controllers
         [HttpGet("PontoColeta/{pontoColetaId}")]
         public ActionResult<IEnumerable<ColetaAgendadaViewModel>> Get(int pontoColetaId, [FromQuery] int pagina = 0, [FromQuery] int tamanho = 10)
         {
+            var pontoColeta = _pontoColetaService.ObterPorId(pontoColetaId);
+            if (pontoColeta == null)
+                return NotFound("Ponto de coleta não encontrado.");
+
             var coletas = _coletaAgendadaService.ListarPorPontoDeColeta(pontoColetaId, pagina, tamanho);
 
             var viewModels = _mapper.Map<IEnumerable<ColetaAgendadaViewModel>>(coletas);
