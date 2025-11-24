@@ -50,7 +50,7 @@ namespace coleta_residuos.Controllers
             {
                 var pontoColeta = _pontoColetaService.ObterPorId(id);
                 if (pontoColeta == null)
-                    return NotFound();
+                    return NotFound("Ponto de coleta não encontrado.");
 
                 var pontoColetaViewModel = _mapper.Map<PontoColetaViewModel>(pontoColeta);
                 return Ok(pontoColetaViewModel);
@@ -106,13 +106,13 @@ namespace coleta_residuos.Controllers
         public ActionResult Put(int id, [FromBody] AtualizarPontoColetaViewModel atualizarViewModel)
         {
             if (id != atualizarViewModel.Id)
-                return BadRequest();
+                return BadRequest("O id fornecido é divergente do ponto de coleta que será atualizado.");
 
             try
             {
                 var pontoExistente = _pontoColetaService.ObterPorId(id);
                 if (pontoExistente == null)
-                    return NotFound();
+                    return NotFound("Ponto de coleta não encontrado.");
 
                 _mapper.Map(atualizarViewModel, pontoExistente);
                 _pontoColetaService.Atualizar(pontoExistente);
@@ -133,7 +133,7 @@ namespace coleta_residuos.Controllers
             {
                 var ponto = _pontoColetaService.ObterPorId(id);
                 if (ponto == null)
-                    return NotFound();
+                    return NotFound("Ponto de coleta não encontrado.");
 
                 _pontoColetaService.Deletar(id);
                 return NoContent();

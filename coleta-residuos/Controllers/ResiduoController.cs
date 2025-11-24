@@ -50,7 +50,7 @@ namespace coleta_residuos.Controllers
             {
                 var residuo = _residuoService.ObterPorId(id);
                 if (residuo == null)
-                    return NotFound();
+                    return NotFound("Resíduo não encontrado.");
 
                 var viewModel = _mapper.Map<ResiduoViewModel>(residuo);
                 return Ok(viewModel);
@@ -105,13 +105,13 @@ namespace coleta_residuos.Controllers
         public ActionResult Put(int id, [FromBody] AtualizarResiduoViewModel atualizarResiduoViewModel)
         {
             if (id.ToString() != atualizarResiduoViewModel.Id)
-                return BadRequest();
+                return BadRequest("O id fornecido é divergente do resíduo que será atualizado.");
 
             try
             {
                 var residuoExistente = _residuoService.ObterPorId(id);
                 if (residuoExistente == null)
-                    return NotFound();
+                    return NotFound("Resíduo não encontrado");
 
                 _mapper.Map(atualizarResiduoViewModel, residuoExistente);
                 _residuoService.Atualizar(residuoExistente);
@@ -132,7 +132,7 @@ namespace coleta_residuos.Controllers
             {
                 var residuo = _residuoService.ObterPorId(id);
                 if (residuo == null)
-                    return NotFound();
+                    return NotFound("Resíduo não encontrado.");
 
                 _residuoService.Deletar(id);
                 return NoContent();

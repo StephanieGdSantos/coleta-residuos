@@ -50,7 +50,7 @@ namespace coleta_residuos.Controllers
             {
                 var alerta = _alertaService.ObterPorId(id);
                 if (alerta == null)
-                    return NotFound();
+                    return NotFound("Alerta não encontrado.");
 
                 var alertaViewModel = _mapper.Map<AlertaViewModel>(alerta);
                 return Ok(alertaViewModel);
@@ -89,13 +89,13 @@ namespace coleta_residuos.Controllers
         public ActionResult Put(int id, [FromBody] AtualizarAlertaViewModel atualizarAlertaViewModel)
         {
             if (id != atualizarAlertaViewModel.Id)
-                return BadRequest();
+                return BadRequest("O id fornecido é divergente do alerta que será atualizado.");
 
             try
             {
                 var alertaExistente = _alertaService.ObterPorId(id);
                 if (alertaExistente == null)
-                    return NotFound();
+                    return NotFound("Alerta não encontrado.");
 
                 _mapper.Map(atualizarAlertaViewModel, alertaExistente);
                 _alertaService.Atualizar(alertaExistente);
@@ -115,7 +115,7 @@ namespace coleta_residuos.Controllers
             {
                 var alerta = _alertaService.ObterPorId(id);
                 if (alerta == null)
-                    return NotFound();
+                    return NotFound("Alerta não encontrado.");
 
                 _alertaService.Deletar(id);
                 return NoContent();

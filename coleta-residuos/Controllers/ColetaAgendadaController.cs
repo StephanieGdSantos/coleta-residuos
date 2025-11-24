@@ -49,7 +49,7 @@ namespace coleta_residuos.Controllers
             {
                 var coleta = _coletaAgendadaService.ObterPorId(id);
                 if (coleta == null)
-                    return NotFound();
+                    return NotFound("Agendamento não encontrado.");
 
                 var coletaViewModel = _mapper.Map<ColetaAgendadaViewModel>(coleta);
                 return Ok(coletaViewModel);
@@ -82,13 +82,13 @@ namespace coleta_residuos.Controllers
         public ActionResult Put(int id, [FromBody] AtualizarColetaAgendadaViewModel atualizarColetaViewModel)
         {
             if (id != atualizarColetaViewModel.Id)
-                return BadRequest();
+                return BadRequest("O id fornecido é divergente do agendamento que será atualizado.");
 
             try
             {
                 var coletaExistente = _coletaAgendadaService.ObterPorId(id);
                 if (coletaExistente == null)
-                    return NotFound();
+                    return NotFound("Agendamento não encontrado.");
 
                 _mapper.Map(atualizarColetaViewModel, coletaExistente);
                 _coletaAgendadaService.Atualizar(coletaExistente);
@@ -108,7 +108,7 @@ namespace coleta_residuos.Controllers
             {
                 var coleta = _coletaAgendadaService.ObterPorId(id);
                 if (coleta == null)
-                    return NotFound();
+                    return NotFound("Agendamento não encontrado.");
 
                 _coletaAgendadaService.Deletar(id);
                 return NoContent();

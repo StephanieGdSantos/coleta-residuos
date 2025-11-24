@@ -49,7 +49,7 @@ namespace coleta_residuos.Controllers
             {
                 var evento = _eventoColetaService.ObterPorId(id);
                 if (evento == null)
-                    return NotFound();
+                    return NotFound("Evento não encontrado.");
 
                 var eventoViewModel = _mapper.Map<EventoColetaViewModel>(evento);
                 return Ok(eventoViewModel);
@@ -82,13 +82,13 @@ namespace coleta_residuos.Controllers
         public ActionResult Put(int id, [FromBody] AtualizarEventoColetaViewModel atualizarEventoViewModel)
         {
             if (id != atualizarEventoViewModel.Id)
-                return BadRequest();
+                return BadRequest("O id fornecido é divergente do evento que será atualizado.");
 
             try
             {
                 var eventoExistente = _eventoColetaService.ObterPorId(id);
                 if (eventoExistente == null)
-                    return NotFound();
+                    return NotFound("Evento não encontrado.");
 
                 _mapper.Map(atualizarEventoViewModel, eventoExistente);
                 _eventoColetaService.Atualizar(eventoExistente);
@@ -108,7 +108,7 @@ namespace coleta_residuos.Controllers
             {
                 var evento = _eventoColetaService.ObterPorId(id);
                 if (evento == null)
-                    return NotFound();
+                    return NotFound("Evento não encontrado.");
 
                 _eventoColetaService.Deletar(id);
                 return NoContent();
