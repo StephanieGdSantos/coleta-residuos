@@ -2,13 +2,14 @@
 using coleta_residuos.Models;
 using coleta_residuos.Services;
 using coleta_residuos.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace coleta_residuos.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class AlertaController : ControllerBase
     {
         private readonly IAlertaService _alertaService;
@@ -24,6 +25,7 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "operador,gerente,analista")]
         public ActionResult<IEnumerable<AlertaViewModel>> Get([FromQuery] int pagina = 0, 
             [FromQuery] int tamanho = 10)
         {
@@ -41,6 +43,7 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "operador,gerente,analista")]
         public ActionResult<AlertaViewModel> Get(int id)
         {
             try
@@ -59,6 +62,7 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "operador,gerente")]
         public ActionResult<AlertaViewModel> Post([FromBody] CriarAlertaViewModel criarAlertaViewModel)
         {
             var alerta = _mapper.Map<AlertaModel>(criarAlertaViewModel);
@@ -81,6 +85,7 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "operador,analista,gerente")]
         public ActionResult Put(int id, [FromBody] AtualizarAlertaViewModel atualizarAlertaViewModel)
         {
             if (id != atualizarAlertaViewModel.Id)
@@ -103,6 +108,7 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "gerente")]
         public ActionResult Delete(int id)
         {
             try
@@ -122,6 +128,7 @@ namespace coleta_residuos.Controllers
 
         [HttpGet]
         [Route("/api/PontoColeta/{pontoColetaId}/Alerta")]
+        [Authorize(Roles = "operador,gerente,analista")]
         public ActionResult<IEnumerable<AlertaViewModel>> Get(int pontoColetaId, [FromQuery] int pagina = 0, 
             [FromQuery] int tamanho = 10)
         {

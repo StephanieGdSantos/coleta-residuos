@@ -9,7 +9,7 @@ namespace coleta_residuos.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class ColetaAgendadaController : ControllerBase
     {
         private readonly IColetaAgendadaService _coletaAgendadaService;
@@ -25,6 +25,7 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "operador,analista,gerente")]
         public ActionResult<IEnumerable<ColetaAgendadaViewModel>> Get([FromQuery] int pagina = 0, [FromQuery] int tamanho = 10)
         {
             try
@@ -41,6 +42,7 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "operador,analista,gerente")]
         public ActionResult<ColetaAgendadaViewModel> Get(int id)
         {
             try
@@ -59,6 +61,7 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "operador,gerente")]
         public ActionResult<ColetaAgendadaViewModel> Post([FromBody] CriarColetaAgendadaViewModel criarColetaViewModel)
         {
             var coleta = _mapper.Map<ColetaAgendadaModel>(criarColetaViewModel);
@@ -75,6 +78,7 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "operador,gerente")]
         public ActionResult Put(int id, [FromBody] AtualizarColetaAgendadaViewModel atualizarColetaViewModel)
         {
             if (id != atualizarColetaViewModel.Id)
@@ -97,6 +101,7 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "operador,gerente")]
         public ActionResult Delete(int id)
         {
             try
@@ -116,6 +121,7 @@ namespace coleta_residuos.Controllers
 
         [HttpGet]
         [Route("/api/PontoColeta/{pontoColetaId}/ColetaAgendada")]
+        [Authorize(Roles = "operador,analista,gerente")]
         public ActionResult<IEnumerable<ColetaAgendadaViewModel>> Get(int pontoColetaId, [FromQuery] int pagina = 0, [FromQuery] int tamanho = 10)
         {
             try

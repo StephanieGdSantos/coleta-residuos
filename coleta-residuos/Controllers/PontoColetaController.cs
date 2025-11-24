@@ -9,7 +9,7 @@ namespace coleta_residuos.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class PontoColetaController : ControllerBase
     {
         private readonly IService<PontoColetaModel> _pontoColetaService;
@@ -25,6 +25,7 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "operador,analista,gerente,visitante")]
         public ActionResult<IEnumerable<PontoColetaViewModel>> Get([FromQuery] int pagina = 0,
             [FromQuery] int tamanho = 10)
         {
@@ -42,6 +43,7 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "operador,analista,gerente,visitante")]
         public ActionResult<PontoColetaViewModel> Get(int id)
         {
             try
@@ -60,6 +62,7 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpGet("{id}/Residuo")]
+        [Authorize(Roles = "operador,analista,gerente,visitante")]
         public ActionResult<IEnumerable<ResiduoViewModel>> Get(int id,
             [FromQuery] int pagina = 0, [FromQuery] int tamanho = 10)
         {
@@ -81,6 +84,7 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "gerente")]
         public ActionResult<PontoColetaViewModel> Post([FromBody] CriarPontoColetaViewModel criarViewModel)
         {
             var pontoColeta = _mapper.Map<PontoColetaModel>(criarViewModel);
@@ -98,6 +102,7 @@ namespace coleta_residuos.Controllers
 
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "gerente")]
         public ActionResult Put(int id, [FromBody] AtualizarPontoColetaViewModel atualizarViewModel)
         {
             if (id != atualizarViewModel.Id)
@@ -121,6 +126,7 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "gerente")]
         public ActionResult Delete(int id)
         {
             try

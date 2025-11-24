@@ -9,7 +9,7 @@ namespace coleta_residuos.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class EventoColetaController : ControllerBase
     {
         private readonly IEventoColetaService _eventoColetaService;
@@ -25,6 +25,7 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "operador,analista,gerente")]
         public ActionResult<IEnumerable<EventoColetaViewModel>> Get([FromQuery] int pagina = 0, [FromQuery] int tamanho = 10)
         {
             try
@@ -41,6 +42,7 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "operador,analista,gerente")]
         public ActionResult<EventoColetaViewModel> Get(int id)
         {
             try
@@ -59,6 +61,7 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "operador,gerente")]
         public ActionResult<EventoColetaViewModel> Post([FromBody] CriarEventoColetaViewModel criarEventoViewModel)
         {
             var evento = _mapper.Map<EventoColetaModel>(criarEventoViewModel);
@@ -75,6 +78,7 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "operador,gerente")]
         public ActionResult Put(int id, [FromBody] AtualizarEventoColetaViewModel atualizarEventoViewModel)
         {
             if (id != atualizarEventoViewModel.Id)
@@ -97,6 +101,7 @@ namespace coleta_residuos.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "gerente")]
         public ActionResult Delete(int id)
         {
             try
