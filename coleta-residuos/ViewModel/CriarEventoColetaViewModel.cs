@@ -12,7 +12,7 @@ namespace coleta_residuos.ViewModel
         public int ResiduoId { get; set; }
 
         [Required(ErrorMessage = "A data do evento é obrigatória.")]
-        [Range(typeof(DateTime), "01/01/2000", "31/12/2100", ErrorMessage = "A data do evento deve " +
+        [Range(typeof(DateTime), "01/01/2000", "12/31/2100", ErrorMessage = "A data do evento deve " +
             "estar entre 01/01/2000 e 31/12/2100.")]
         public DateTime DataEvento { get; set; }
 
