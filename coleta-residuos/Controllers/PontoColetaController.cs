@@ -14,13 +14,16 @@ namespace coleta_residuos.Controllers
     {
         private readonly IService<PontoColetaModel> _pontoColetaService;
         private readonly IPontoColetaResiduoService _pontoColetaResiduoService;
+        private readonly IService<ResiduoModel> _residuoService;
         private readonly IMapper _mapper;
 
         public PontoColetaController(IService<PontoColetaModel> pontoColetaService, 
-            IPontoColetaResiduoService pontoColetaResiduoService, IMapper mapper)
+            IPontoColetaResiduoService pontoColetaResiduoService, IService<ResiduoModel> residuoService, 
+            IMapper mapper)
         {
             _pontoColetaService = pontoColetaService;
             _pontoColetaResiduoService = pontoColetaResiduoService;
+            _residuoService = residuoService;
             _mapper = mapper;
         }
 
@@ -91,6 +94,21 @@ namespace coleta_residuos.Controllers
 
             try
             {
+                var residuosExistentes = _residuoService.Listar()
+                    .Where(r => criarViewModel.ResiduosIds
+                        .Contains(r.Id))
+                    .Select(r => r.Id)
+                    .ToList();
+
+                if (residuosExistentes.Count != criarViewModel.ResiduosIds.Count)
+                {
+                    var residuosQueNaoExistem = criarViewModel.ResiduosIds
+                        .Except(residuosExistentes)
+                        .ToList();
+
+                    return BadRequest($"Os seguintes resíduos não existem: {string.Join(", ", residuosQueNaoExistem)}");
+                }
+
                 _pontoColetaService.Criar(pontoColeta);
                 return CreatedAtAction(nameof(Post), new { id = pontoColeta.Id }, criarViewModel);
             }
