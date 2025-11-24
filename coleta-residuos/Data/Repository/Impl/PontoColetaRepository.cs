@@ -16,6 +16,8 @@ namespace coleta_residuos.Data.Repository.Impl
         public IEnumerable<PontoColetaModel> GetAll(int page, int size)
         {
             return _context.PontosColeta
+                            .Include(pc => pc.PontosColetaResiduos)
+                                .ThenInclude(pcr => pcr.Residuo)
                             .Skip((page - 1) * page)
                             .Take(size)
                             .AsNoTracking()
@@ -23,7 +25,13 @@ namespace coleta_residuos.Data.Repository.Impl
                             .OrderBy(pc => pc.Id);
         }
 
-        public PontoColetaModel GetById(int id) => _context.PontosColeta.Find(id);
+        public PontoColetaModel GetById(int id)
+        {
+            return _context.PontosColeta
+                .Include(pc => pc.PontosColetaResiduos)
+                    .ThenInclude(pcr => pcr.Residuo)
+                .FirstOrDefault(pc => pc.Id == id);
+        }
 
         public void Add(PontoColetaModel pontoColeta)
         {
