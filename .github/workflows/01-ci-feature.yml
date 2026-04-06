@@ -59,4 +59,4 @@ jobs:
             --body "Pull request automatizada criada pelo workflow de CI." \
             || echo "PR já existe ou não há alterações para criar"
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
