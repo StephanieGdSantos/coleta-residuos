@@ -37,4 +37,4 @@ jobs:
         run: dotnet restore coleta-residuos.Tests/coleta-residuos.Tests.csproj
 
       - name: Test
-        run: dotnet test coleta-residuos.Tests/coleta-residuos.Tests.csproj --no-build --verbosity normal
+        run: dotnet test coleta-residuos.Tests/coleta-residuos.Tests.csproj --verbosity normal
