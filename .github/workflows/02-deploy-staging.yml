@@ -58,15 +58,14 @@ jobs:
     if: github.actor != 'dependabot[bot]'
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Create Pull Request to Main
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: 'PR automatizada de develop para main'
-          title: 'PR develop -> main'
-          base: main
-          head: develop
-          delete-branch: false
+        run: |
+          gh pr create \
+            --base main \
+            --head develop \
+            --title "PR: Release de develop para main" \
+            --body "Pull request automatizada criada pelo workflow de deploy staging." \
+            || echo "PR já existe ou não há alterações para criar"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
