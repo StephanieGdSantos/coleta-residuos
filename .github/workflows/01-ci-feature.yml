@@ -20,7 +20,7 @@ jobs:
         run: dotnet restore coleta-residuos/coleta-residuos.csproj
 
       - name: Build
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build coleta-residuos/coleta-residuos.csproj --no-restore --configuration Release
 
   test:
     runs-on: ubuntu-latest
@@ -34,7 +34,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore coleta-residuos.Tests/coleta-residuos.Tests.csproj
 
       - name: Test
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test coleta-residuos.Tests/coleta-residuos.Tests.csproj --no-build --verbosity normal
