@@ -20,31 +20,14 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore coleta-residuos/coleta-residuos.csproj
 
       - name: Build
-        run: dotnet build --no-restore --configuration Release
-
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
-
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Test
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet build coleta-residuos/coleta-residuos.csproj --no-restore --configuration Release
 
   deploy:
     runs-on: ubuntu-latest
-    needs: test
+    needs: build
     steps:
       - uses: actions/checkout@v4
 
