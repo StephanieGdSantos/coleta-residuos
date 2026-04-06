@@ -1,212 +1,24 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{A7A55009-9865-4724-8CBC-8D01E26FD95E}|coleta-residuos.csproj|c:\\users\\stephanie gomes\\downloads\\coleta-residuos\\controllers\\eventocoletacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A7A55009-9865-4724-8CBC-8D01E26FD95E}|coleta-residuos.csproj|solutionrelative:controllers\\eventocoletacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A7A55009-9865-4724-8CBC-8D01E26FD95E}|coleta-residuos.csproj|c:\\users\\stephanie gomes\\downloads\\coleta-residuos\\controllers\\pontocoletacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A7A55009-9865-4724-8CBC-8D01E26FD95E}|coleta-residuos.csproj|solutionrelative:controllers\\pontocoletacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A7A55009-9865-4724-8CBC-8D01E26FD95E}|coleta-residuos.csproj|c:\\users\\stephanie gomes\\downloads\\coleta-residuos\\controllers\\coletaagendadacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A7A55009-9865-4724-8CBC-8D01E26FD95E}|coleta-residuos.csproj|solutionrelative:controllers\\coletaagendadacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A7A55009-9865-4724-8CBC-8D01E26FD95E}|coleta-residuos.csproj|c:\\users\\stephanie gomes\\downloads\\coleta-residuos\\controllers\\alertacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A7A55009-9865-4724-8CBC-8D01E26FD95E}|coleta-residuos.csproj|solutionrelative:controllers\\alertacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A7A55009-9865-4724-8CBC-8D01E26FD95E}|coleta-residuos.csproj|c:\\users\\stephanie gomes\\downloads\\coleta-residuos\\controllers\\residuocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A7A55009-9865-4724-8CBC-8D01E26FD95E}|coleta-residuos.csproj|solutionrelative:controllers\\residuocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A7A55009-9865-4724-8CBC-8D01E26FD95E}|coleta-residuos.csproj|c:\\users\\stephanie gomes\\downloads\\coleta-residuos\\viewmodel\\atualizarpontocoletaviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A7A55009-9865-4724-8CBC-8D01E26FD95E}|coleta-residuos.csproj|solutionrelative:viewmodel\\atualizarpontocoletaviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A7A55009-9865-4724-8CBC-8D01E26FD95E}|coleta-residuos.csproj|c:\\users\\stephanie gomes\\downloads\\coleta-residuos\\data\\repository\\impl\\pontocoletaresiduorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A7A55009-9865-4724-8CBC-8D01E26FD95E}|coleta-residuos.csproj|solutionrelative:data\\repository\\impl\\pontocoletaresiduorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A7A55009-9865-4724-8CBC-8D01E26FD95E}|coleta-residuos.csproj|c:\\users\\stephanie gomes\\downloads\\coleta-residuos\\services\\impl\\pontocoletaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A7A55009-9865-4724-8CBC-8D01E26FD95E}|coleta-residuos.csproj|solutionrelative:services\\impl\\pontocoletaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A7A55009-9865-4724-8CBC-8D01E26FD95E}|coleta-residuos.csproj|c:\\users\\stephanie gomes\\downloads\\coleta-residuos\\viewmodel\\criarpontocoletaviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A7A55009-9865-4724-8CBC-8D01E26FD95E}|coleta-residuos.csproj|solutionrelative:viewmodel\\criarpontocoletaviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A7A55009-9865-4724-8CBC-8D01E26FD95E}|coleta-residuos.csproj|c:\\users\\stephanie gomes\\downloads\\coleta-residuos\\models\\pontocoletaresiduomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A7A55009-9865-4724-8CBC-8D01E26FD95E}|coleta-residuos.csproj|solutionrelative:models\\pontocoletaresiduomodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A7A55009-9865-4724-8CBC-8D01E26FD95E}|coleta-residuos.csproj|c:\\users\\stephanie gomes\\downloads\\coleta-residuos\\data\\contexts\\databasecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A7A55009-9865-4724-8CBC-8D01E26FD95E}|coleta-residuos.csproj|solutionrelative:data\\contexts\\databasecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "WorkspaceRootPath": "C:\\Users\\Stephanie Gomes\\Desktop\\Stephanie\\Estudos\\Fiap\\2ANO\\FASE 4\\coleta-residuos\\coleta-residuos\\",
+  "Documents": [],
   "DocumentGroupContainers": [
     {
-      "Orientation": 1,
+      "Orientation": 0,
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedHeight": 200,
-          "SelectedChildIndex": 5,
+          "DockedWidth": 200,
+          "SelectedChildIndex": -1,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "PontoColetaController.cs",
-              "DocumentMoniker": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\Controllers\\PontoColetaController.cs",
-              "RelativeDocumentMoniker": "Controllers\\PontoColetaController.cs",
-              "ToolTip": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\Controllers\\PontoColetaController.cs",
-              "RelativeToolTip": "Controllers\\PontoColetaController.cs",
-              "ViewState": "AgIAACkAAAAAAAAAAAAgwDYAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-17T02:34:20.435Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ResiduoController.cs",
-              "DocumentMoniker": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\Controllers\\ResiduoController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ResiduoController.cs",
-              "ToolTip": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\Controllers\\ResiduoController.cs",
-              "RelativeToolTip": "Controllers\\ResiduoController.cs",
-              "ViewState": "AgIAAD8AAAAAAAAAAAAowFEAAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-17T02:21:16.485Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ColetaAgendadaController.cs",
-              "DocumentMoniker": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\Controllers\\ColetaAgendadaController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ColetaAgendadaController.cs",
-              "ToolTip": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\Controllers\\ColetaAgendadaController.cs",
-              "RelativeToolTip": "Controllers\\ColetaAgendadaController.cs",
-              "ViewState": "AgIAADsAAAAAAAAAAAAowEsAAABFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-17T01:49:35.447Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "AlertaController.cs",
-              "DocumentMoniker": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\Controllers\\AlertaController.cs",
-              "RelativeDocumentMoniker": "Controllers\\AlertaController.cs",
-              "ToolTip": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\Controllers\\AlertaController.cs",
-              "RelativeToolTip": "Controllers\\AlertaController.cs",
-              "ViewState": "AgIAAD8AAAAAAAAAAAAowFEAAAA9AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-17T01:50:18.074Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "EventoColetaController.cs",
-              "DocumentMoniker": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\Controllers\\EventoColetaController.cs",
-              "RelativeDocumentMoniker": "Controllers\\EventoColetaController.cs",
-              "ToolTip": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\Controllers\\EventoColetaController.cs",
-              "RelativeToolTip": "Controllers\\EventoColetaController.cs",
-              "ViewState": "AgIAAD4AAAAAAAAAAAAowE4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-17T01:49:30.353Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "AtualizarPontoColetaViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\ViewModel\\AtualizarPontoColetaViewModel.cs",
-              "RelativeDocumentMoniker": "ViewModel\\AtualizarPontoColetaViewModel.cs",
-              "ToolTip": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\ViewModel\\AtualizarPontoColetaViewModel.cs",
-              "RelativeToolTip": "ViewModel\\AtualizarPontoColetaViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAzAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-17T02:13:07.307Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "PontoColetaResiduoRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\Data\\Repository\\Impl\\PontoColetaResiduoRepository.cs",
-              "RelativeDocumentMoniker": "Data\\Repository\\Impl\\PontoColetaResiduoRepository.cs",
-              "ToolTip": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\Data\\Repository\\Impl\\PontoColetaResiduoRepository.cs",
-              "RelativeToolTip": "Data\\Repository\\Impl\\PontoColetaResiduoRepository.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-17T02:14:29.949Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "PontoColetaService.cs",
-              "DocumentMoniker": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\Services\\Impl\\PontoColetaService.cs",
-              "RelativeDocumentMoniker": "Services\\Impl\\PontoColetaService.cs",
-              "ToolTip": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\Services\\Impl\\PontoColetaService.cs",
-              "RelativeToolTip": "Services\\Impl\\PontoColetaService.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAQwBUAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-17T02:09:02.238Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "CriarPontoColetaViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\ViewModel\\CriarPontoColetaViewModel.cs",
-              "RelativeDocumentMoniker": "ViewModel\\CriarPontoColetaViewModel.cs",
-              "ToolTip": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\ViewModel\\CriarPontoColetaViewModel.cs",
-              "RelativeToolTip": "ViewModel\\CriarPontoColetaViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-17T02:06:36.529Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "DatabaseContext.cs",
-              "DocumentMoniker": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\Data\\Contexts\\DatabaseContext.cs",
-              "RelativeDocumentMoniker": "Data\\Contexts\\DatabaseContext.cs",
-              "ToolTip": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\Data\\Contexts\\DatabaseContext.cs",
-              "RelativeToolTip": "Data\\Contexts\\DatabaseContext.cs",
-              "ViewState": "AgIAADEAAAAAAAAAAAAwwD8AAAA7AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-17T01:35:41.948Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "PontoColetaResiduoModel.cs",
-              "DocumentMoniker": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\Models\\PontoColetaResiduoModel.cs",
-              "RelativeDocumentMoniker": "Models\\PontoColetaResiduoModel.cs",
-              "ToolTip": "C:\\Users\\Stephanie Gomes\\Downloads\\coleta-residuos\\Models\\PontoColetaResiduoModel.cs",
-              "RelativeToolTip": "Models\\PontoColetaResiduoModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAsAAAA5AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-17T01:29:43.713Z",
-              "EditorCaption": ""
             }
           ]
         },
         {
-          "DockedHeight": 200,
+          "DockedWidth": 200,
           "SelectedChildIndex": -1,
           "Children": [
             {

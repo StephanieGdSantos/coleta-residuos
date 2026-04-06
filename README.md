@@ -33,7 +33,7 @@ Este projeto é uma API RESTful desenvolvida em .NET 8 para gerenciamento de res
 1. **Banco de Dados**  
    Configure a string de conexão Oracle no arquivo `appsettings.Development.json`:
 ```
-"ConnectionStrings": { "DatabaseConnection": "Data Source=...;User ID=...;Password=...;" }
+"ConnectionStrings": { "DatabaseConnection": "Data Source=...;User id=...;Password=...;" }
 ```
 
 
