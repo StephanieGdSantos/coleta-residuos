@@ -64,7 +64,7 @@ jobs:
           gh pr create \
             --base main \
             --head develop \
-            --title "PR: Release de develop para main" \
+            --title "PR: develop -> main" \
             --body "Pull request automatizada criada pelo workflow de deploy staging." \
             || echo "PR já existe ou não há alterações para criar"
         env:
