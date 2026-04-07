@@ -17,10 +17,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 #region Banco de dados
-var connectionString = builder.Configuration.GetConnectionString("DatabaseConnection");
+var oracleUser = Environment.GetEnvironmentVariable("ORACLE_USER") ?? "system";
+var oraclePassword = Environment.GetEnvironmentVariable("ORACLE_PASSWORD") ?? "root_pass";
+var oracleDataSource = Environment.GetEnvironmentVariable("ORACLE_DATASOURCE") ?? "db:1521/xe";
+
+var connectionString = $"User Id={oracleUser};Password={oraclePassword};Data Source={oracleDataSource}";
+
 builder.Services.AddDbContext<DatabaseContext>(
     opt => opt.UseOracle(connectionString).EnableSensitiveDataLogging(true)
 );
+
 #endregion
 
 #region Repositorios
