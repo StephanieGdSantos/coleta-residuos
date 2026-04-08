@@ -19,7 +19,7 @@ services:
 
   api:
     build:
-      context: ./coleta-residuos
+      context: ./coleta-residuos/coleta-residuos
       dockerfile: Dockerfile
     container_name: coleta-residuos-app
     ports:
