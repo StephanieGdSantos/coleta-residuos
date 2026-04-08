@@ -19,7 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 #region Banco de dados
 var oracleUser = Environment.GetEnvironmentVariable("ORACLE_USER") ?? "system";
 var oraclePassword = Environment.GetEnvironmentVariable("ORACLE_PASSWORD") ?? "root_pass";
-var oracleDataSource = Environment.GetEnvironmentVariable("ORACLE_DATASOURCE") ?? "db:1521/xe";
+var oracleDataSource = Environment.GetEnvironmentVariable("ORACLE_DATASOURCE") ?? "db:1521/coleta_residuos";
 
 var connectionString = $"User Id={oracleUser};Password={oraclePassword};Data Source={oracleDataSource}";
 
