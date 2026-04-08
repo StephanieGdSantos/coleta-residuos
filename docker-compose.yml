@@ -8,11 +8,11 @@ services:
       - "1521:1521"
     environment:
       ORACLE_PASSWORD: root_pass
-      ORACLE_DATABASE: xe
+      ORACLE_DATABASE: coleta_residuos
     volumes:
       - db_data:/opt/oracle/oradata
     healthcheck:
-      test: ["CMD", "bash", "-c", "echo 'SELECT 1 FROM DUAL;' | sqlplus system/$${ORACLE_PASSWORD}@localhost/xe"]
+      test: ["CMD", "bash", "-c", "echo 'SELECT 1 FROM DUAL;' | sqlplus system/$${ORACLE_PASSWORD}@localhost/coleta_residuos"]
       interval: 20s
       timeout: 10s
       retries: 10
@@ -32,7 +32,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ORACLE_USER=system
       - ORACLE_PASSWORD=root_pass
-      - ORACLE_DATASOURCE=db:1521/xe
+      - ORACLE_DATASOURCE=db:1521/coleta_residuos
 
 
 volumes:
