@@ -47,7 +47,7 @@ jobs:
       - name: Build and push image to DockerHub (staging)
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./coleta-residuos
           file: ./coleta-residuos/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:staging
