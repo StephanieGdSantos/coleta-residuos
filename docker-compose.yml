@@ -28,11 +28,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ORACLE_USER=system
-      - ORACLE_PASSWORD=root_pass
-      - ORACLE_DATASOURCE=db:1521/coleta_residuos
+    env_file:
+      - .env
 
 
 volumes:

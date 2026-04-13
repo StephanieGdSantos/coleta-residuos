@@ -1,5 +1,6 @@
 ﻿using coleta_residuos.Models;
 using coleta_residuos.Services.Impl;
+using DotNetEnv;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -34,8 +35,9 @@ namespace coleta_residuos.Controllers
 
         private string GenerateJwtToken(UserModel user)
         {
+            var secretToken = Env.GetString("JWT_TOKEN_SECRET");
 
-            byte[] secret = Encoding.ASCII.GetBytes("f+ujXAKHk00L5jlMXo2XhAWawsOoihNP1OiAM25lLSO57+X7uBMQgwPju6yzyePi");
+            byte[] secret = Encoding.ASCII.GetBytes(secretToken);
             var securityKey = new SymmetricSecurityKey(secret);
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
