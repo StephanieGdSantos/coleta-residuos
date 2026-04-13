@@ -1,0 +1,30 @@
+# Variáveis de ambiente
+.env
+.env.local
+.env.*.local
+
+# Build e dependências
+bin/
+obj/
+*.dll
+*.exe
+*.so
+*.dylib
+
+# IDE
+.vs/
+.vscode/
+*.swp
+*.swo
+*~
+
+# NuGet
+*.nupkg
+*.snupkg
+
+# Testing
+TestResults/
+
+# OS
+.DS_Store
+Thumbs.db
