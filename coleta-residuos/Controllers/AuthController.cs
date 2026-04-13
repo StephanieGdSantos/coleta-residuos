@@ -1,6 +1,8 @@
 ﻿using coleta_residuos.Models;
 using coleta_residuos.Services.Impl;
+using coleta_residuos.Settings;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -13,10 +15,12 @@ namespace coleta_residuos.Controllers
     public class AuthController : ControllerBase
     {
         private readonly AuthService _authService;
+        private readonly JwtSettings _jwtSettings;
 
-        public AuthController()
+        public AuthController(IOptions<JwtSettings> jwtSettings)
         {
             _authService = new AuthService();
+            _jwtSettings = jwtSettings.Value;
         }
 
         [HttpPost("login")]
@@ -34,8 +38,7 @@ namespace coleta_residuos.Controllers
 
         private string GenerateJwtToken(UserModel user)
         {
-
-            byte[] secret = Encoding.ASCII.GetBytes("f+ujXAKHk00L5jlMXo2XhAWawsOoihNP1OiAM25lLSO57+X7uBMQgwPju6yzyePi");
+            byte[] secret = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
             var securityKey = new SymmetricSecurityKey(secret);
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 

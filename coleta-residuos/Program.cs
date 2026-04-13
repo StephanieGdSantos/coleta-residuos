@@ -5,21 +5,22 @@ using coleta_residuos.Data.Repository.Impl;
 using coleta_residuos.Models;
 using coleta_residuos.Services;
 using coleta_residuos.Services.Impl;
+using coleta_residuos.Settings;
 using coleta_residuos.ViewModel;
+using DotNetEnv;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
+Env.Load();
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-
 #region Banco de dados
-var oracleUser = Environment.GetEnvironmentVariable("ORACLE_USER") ?? "system";
-var oraclePassword = Environment.GetEnvironmentVariable("ORACLE_PASSWORD") ?? "root_pass";
-var oracleDataSource = Environment.GetEnvironmentVariable("ORACLE_DATASOURCE") ?? "db:1521/coleta_residuos";
+var oracleUser = Env.GetString("ORACLE_USER") ?? "system";
+var oraclePassword = Env.GetString("ORACLE_PASSWORD") ?? "root_pass";
+var oracleDataSource = Env.GetString("ORACLE_DATASOURCE") ?? "db:1521/coleta_residuos";
 
 var connectionString = $"User Id={oracleUser};Password={oraclePassword};Data Source={oracleDataSource}";
 
@@ -93,6 +94,13 @@ builder.Services.AddSingleton(mapper);
 #endregion
 
 #region Autenticacao
+var jwtSecret = Env.GetString("JWT_TOKEN_SECRET") ?? "f+ujXAKHk00L5jlMXo2XhAWawsOoihNP1OiAM25lLSO57+X7uBMQgwPju6yzyePi";
+
+builder.Services.Configure<JwtSettings>(options =>
+{
+    options.Secret = jwtSecret;
+});
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -103,7 +111,7 @@ builder.Services.AddAuthentication(options =>
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("f+ujXAKHk00L5jlMXo2XhAWawsOoihNP1OiAM25lLSO57+X7uBMQgwPju6yzyePi")),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
         ValidateIssuer = false,
         ValidateAudience = false
     };
