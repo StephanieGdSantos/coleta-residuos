@@ -5,6 +5,7 @@ using coleta_residuos.Data.Repository.Impl;
 using coleta_residuos.Models;
 using coleta_residuos.Services;
 using coleta_residuos.Services.Impl;
+using coleta_residuos.Settings;
 using coleta_residuos.ViewModel;
 using DotNetEnv;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -93,7 +94,12 @@ builder.Services.AddSingleton(mapper);
 #endregion
 
 #region Autenticacao
-var jwtSecret = Env.GetString("JWT_SECRET") ?? "f+ujXAKHk00L5jlMXo2XhAWawsOoihNP1OiAM25lLSO57+X7uBMQgwPju6yzyePi";
+var jwtSecret = Env.GetString("JWT_TOKEN_SECRET") ?? "f+ujXAKHk00L5jlMXo2XhAWawsOoihNP1OiAM25lLSO57+X7uBMQgwPju6yzyePi";
+
+builder.Services.Configure<JwtSettings>(options =>
+{
+    options.Secret = jwtSecret;
+});
 
 builder.Services.AddAuthentication(options =>
 {
