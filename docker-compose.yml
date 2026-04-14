@@ -1,14 +1,12 @@
-﻿version: '3.8'
-
-services:
+﻿services:
   db:
     container_name: oracle-xe
     image: gvenzl/oracle-xe:21.3.0
     ports:
       - "1521:1521"
     environment:
-      ORACLE_PASSWORD: root_pass
-      ORACLE_DATABASE: coleta_residuos
+      ORACLE_PASSWORD: ${ORACLE_PASSWORD}
+      ORACLE_DATABASE: ${ORACLE_DATABASE}
     volumes:
       - db_data:/opt/oracle/oradata
     healthcheck:
@@ -30,7 +28,6 @@ services:
         condition: service_healthy
     env_file:
       - .env
-
 
 volumes:
   db_data:
