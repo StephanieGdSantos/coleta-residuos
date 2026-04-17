@@ -57,3 +57,6 @@ TestResult.xml
 nunit-*.xml
 /coleta-residuos/.vs/coleta-residuos/copilot-chat/7f6ea837/sessions
 /coleta-residuos/.vs/coleta-residuos/FileContentIndex
+
+# Environment-specific files
+.env
