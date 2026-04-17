@@ -16,9 +16,7 @@
       retries: 10
 
   api:
-    build:
-      context: ./coleta-residuos
-      dockerfile: Dockerfile
+    image: coleta-residuos-api:latest
     container_name: coleta-residuos-app
     ports:
       - "8080:8080"
