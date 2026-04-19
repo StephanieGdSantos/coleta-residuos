@@ -17,4 +17,4 @@ RUN dotnet publish "./coleta-residuos/coleta-residuos.csproj" -c $BUILD_CONFIGUR
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "./coleta-residuos/coleta-residuos.dll"]
+ENTRYPOINT ["dotnet", "coleta-residuos.dll"]
