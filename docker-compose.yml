@@ -16,7 +16,7 @@
       retries: 10
 
   api:
-    image: coleta-residuos-api:latest
+    image: stephaniegomes/coleta-residuos:latest
     container_name: coleta-residuos-app
     ports:
       - "8080:8080"
