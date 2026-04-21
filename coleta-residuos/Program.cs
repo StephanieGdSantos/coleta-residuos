@@ -20,12 +20,16 @@ var configuration = builder.Configuration;
 
 #region Environment Validation
 
-var jwtSecret = configuration["JwtSettings:Secret"] ?? "aB3cD4eF5gH6iJ7kL8mN9oP0qR1sT2uV3wX4yZ5aB6cD7eF8gH9iJ0kL1mN2oP3qR4aB3cD4eF5gH6iJ7kL8mN9oP0qR1sT2uV3wX4yZ5aB6cD7eF8gH9iJ0kL1mN2oP3qR4";
+var jwtSecret = configuration["JwtSettings:Secret"];
+if (string.IsNullOrWhiteSpace(jwtSecret) || jwtSecret.Length < 32)
+{
+    throw new InvalidOperationException("JwtSettings:Secret não configurado ou muito curto (mín. 32 caracteres).");
+}
 
 var oraclePassword = configuration["Oracle:Password"];
 if (string.IsNullOrWhiteSpace(oraclePassword))
 {
-    throw new InvalidOperationException("Senha não configurada.");
+    throw new InvalidOperationException("Oracle:Password não configurado.");
 }
 #endregion
 
