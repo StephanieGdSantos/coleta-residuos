@@ -17,36 +17,15 @@ Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
-#region Validação das variáveis de ambiente
-
-var jwtSecret = Env.GetString("JWT_TOKEN_SECRET");
-if (string.IsNullOrWhiteSpace(jwtSecret) || jwtSecret.Length < 32)
-{
-    throw new InvalidOperationException(
-        "JWT_TOKEN_SECRET não encontrado ou é muito curto. " +
-        "Insira um segredo seguro com pelo menos 32 caracteres em seu arquivo .env.");
-}
-
-var oraclePassword = Env.GetString("ORACLE_PASSWORD");
-if (string.IsNullOrWhiteSpace(oraclePassword))
-{
-    throw new InvalidOperationException(
-        "ORACLE_PASSWORD não encontrado. " +
-        "Insira ORACLE_PASSWORD em seu arquivo .env.");
-}
-#endregion
-
 #region Banco de dados
 var oracleUser = Env.GetString("ORACLE_USER") ?? "system";
-var oracleDataSource = Env.GetString("ORACLE_DATASOURCE") ?? "db:1521/coleta_residuos";
-var environment = Env.GetString("ASPNETCORE_ENVIRONMENT") ?? "Development";
-
-var enableSensitiveDataLogging = environment == "Development";
+var oraclePassword = Env.GetString("ORACLE_PASSWORD") ?? "root_pwd";
+var oracleDataSource = Env.GetString("ORACLE_DATASOURCE") ?? "db:1521/xe";
 
 var connectionString = $"User Id={oracleUser};Password={oraclePassword};Data Source={oracleDataSource}";
 
 builder.Services.AddDbContext<DatabaseContext>(
-    opt => opt.UseOracle(connectionString).EnableSensitiveDataLogging(enableSensitiveDataLogging)
+    opt => opt.UseOracle(connectionString).EnableSensitiveDataLogging(true)
 );
 
 #endregion
@@ -115,6 +94,8 @@ builder.Services.AddSingleton(mapper);
 #endregion
 
 #region Autenticacao
+var jwtSecret = Env.GetString("JWT_TOKEN_SECRET") ?? "f+ujXAKHk00L5jlMXo2XhAWawsOoihNP1OiAM25lLSO57+X7uBMQgwPju6yzyePi";
+
 builder.Services.Configure<JwtSettings>(options =>
 {
     options.Secret = jwtSecret;
@@ -150,39 +131,10 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var numeroMaximoDeTentativas = 30;
-var delayMs = 1000;
-var retentativas = 0;
-
-while (retentativas < numeroMaximoDeTentativas)
+using (var scope = app.Services.CreateScope())
 {
-    try
-    {
-        using (var scope = app.Services.CreateScope())
-        {
-            var db = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-            
-            if (db.Database.CanConnect())
-            {
-                db.Database.Migrate();
-                break;
-            }
-        }
-    }
-    catch (Exception ex)
-    {
-        retentativas++;
-        if (retentativas >= numeroMaximoDeTentativas)
-        {
-            Console.WriteLine($"Falha ao conectar ao banco após {numeroMaximoDeTentativas} tentativas.");
-            Console.WriteLine($"Erro: {ex.Message}");
-            throw;
-        }
-
-        var tempoDeEspera = Math.Min(delayMs * (retentativas + 1), 10000);
-        Console.WriteLine($"Tentativa {retentativas}/{numeroMaximoDeTentativas} falhou. Aguardando {tempoDeEspera}ms antes de tentar novamente...");
-        Thread.Sleep(tempoDeEspera);
-    }
+    var db = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+    db.Database.Migrate();
 }
 
 app.Run();
