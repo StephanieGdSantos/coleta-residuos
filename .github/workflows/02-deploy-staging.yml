@@ -7,6 +7,7 @@ on:
 
 env:
   IMAGE_NAME: coleta-residuos
+  ASPNETCORE_ENVIRONMENT: Development
 
 permissions:
   contents: read
@@ -51,6 +52,8 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:staging
+          build-args: |
+            ASPNETCORE_ENVIRONMENT=${{ env.ASPNETCORE_ENVIRONMENT }}
 
   create-pull-request-to-main:
     runs-on: ubuntu-latest
