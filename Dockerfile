@@ -15,6 +15,7 @@ ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./coleta-residuos/coleta-residuos.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
+ARG ASPNETCORE_ENVIRONMENT=Production
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "coleta-residuos.dll"]

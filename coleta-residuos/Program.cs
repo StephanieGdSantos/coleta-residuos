@@ -7,25 +7,51 @@ using coleta_residuos.Services;
 using coleta_residuos.Services.Impl;
 using coleta_residuos.Settings;
 using coleta_residuos.ViewModel;
-using DotNetEnv;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-Env.Load();
-
 var builder = WebApplication.CreateBuilder(args);
 
+// Adiciona User Secrets apenas em desenvolvimento LOCAL (não em container)
+if (builder.Environment.IsDevelopment() && !File.Exists("/.dockerenv"))
+{
+    builder.Configuration.AddUserSecrets<Program>();
+}
+
+var configuration = builder.Configuration;
+
+#region Environment Validation
+// Validate critical environment variables usando IConfiguration
+var jwtSecret = configuration["JwtSettings:Secret"];
+if (string.IsNullOrWhiteSpace(jwtSecret) || jwtSecret.Length < 32)
+{
+    throw new InvalidOperationException(
+        "JwtSettings:Secret is not configured or has less than 32 characters. " +
+        "For development, use: dotnet user-secrets set \"JwtSettings:Secret\" \"your-64-char-key\"\n" +
+        "For Docker/production, set JWTSETINGS__SECRET environment variable.");
+}
+
+var oraclePassword = configuration["Oracle:Password"];
+if (string.IsNullOrWhiteSpace(oraclePassword))
+{
+    throw new InvalidOperationException(
+        "Oracle:Password is not configured. " +
+        "For development, use: dotnet user-secrets set \"Oracle:Password\" \"password\"\n" +
+        "For Docker/production, set ORACLE__PASSWORD environment variable.");
+}
+#endregion
+
 #region Banco de dados
-var oracleUser = Env.GetString("ORACLE_USER") ?? "system";
-var oraclePassword = Env.GetString("ORACLE_PASSWORD") ?? "root_pwd";
-var oracleDataSource = Env.GetString("ORACLE_DATASOURCE") ?? "db:1521/xe";
+var oracleUser = configuration["Oracle:User"] ?? "system";
+var oracleDataSource = configuration["Oracle:DataSource"] ?? "db:1521/xe";
+var isDevelopment = builder.Environment.IsDevelopment();
 
 var connectionString = $"User Id={oracleUser};Password={oraclePassword};Data Source={oracleDataSource}";
 
 builder.Services.AddDbContext<DatabaseContext>(
-    opt => opt.UseOracle(connectionString).EnableSensitiveDataLogging(true)
+    opt => opt.UseOracle(connectionString).EnableSensitiveDataLogging(isDevelopment)
 );
 
 #endregion
@@ -94,8 +120,6 @@ builder.Services.AddSingleton(mapper);
 #endregion
 
 #region Autenticacao
-var jwtSecret = Env.GetString("JWT_TOKEN_SECRET") ?? "f+ujXAKHk00L5jlMXo2XhAWawsOoihNP1OiAM25lLSO57+X7uBMQgwPju6yzyePi";
-
 builder.Services.Configure<JwtSettings>(options =>
 {
     options.Secret = jwtSecret;
@@ -113,7 +137,9 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
         ValidateIssuer = false,
-        ValidateAudience = false
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero
     };
 });
 #endregion
@@ -131,10 +157,46 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-using (var scope = app.Services.CreateScope())
+// Retry logic para aguardar banco estar pronto antes de migrar
+var maxRetries = 60;
+var delayMs = 2000;
+var retryCount = 0;
+
+Console.WriteLine("⏳ Aguardando banco de dados estar pronto...");
+
+while (retryCount < maxRetries)
 {
-    var db = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-    db.Database.Migrate();
+    try
+    {
+        using (var scope = app.Services.CreateScope())
+        {
+            var db = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+            
+            // Verificar se consegue conectar
+            if (db.Database.CanConnect())
+            {
+                Console.WriteLine("✓ Conexão com banco estabelecida. Executando migrations...");
+                db.Database.Migrate();
+                Console.WriteLine("✓ Migrations concluídas com sucesso.");
+                break;
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        retryCount++;
+        if (retryCount >= maxRetries)
+        {
+            Console.WriteLine($"✗ Falha ao conectar ao banco após {maxRetries} tentativas.");
+            Console.WriteLine($"Última exceção: {ex.Message}");
+            throw;
+        }
+
+        var waitTime = Math.Min(delayMs * (retryCount + 1) / 1000, 30000);
+        Console.WriteLine($"⏳ Tentativa {retryCount}/{maxRetries} falhou. Aguardando {waitTime}ms antes de tentar novamente...");
+        System.Threading.Thread.Sleep(waitTime);
+    }
 }
 
+Console.WriteLine("✓ Aplicação iniciada com sucesso!");
 app.Run();
