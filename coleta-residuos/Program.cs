@@ -19,8 +19,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 #region Banco de dados
 var oracleUser = Env.GetString("ORACLE_USER") ?? "system";
-var oraclePassword = Env.GetString("ORACLE_PASSWORD") ?? "root_pass";
-var oracleDataSource = Env.GetString("ORACLE_DATASOURCE") ?? "db:1521/coleta_residuos";
+var oraclePassword = Env.GetString("ORACLE_PASSWORD") ?? "root_pwd";
+var oracleDataSource = Env.GetString("ORACLE_DATASOURCE") ?? "db:1521/xe";
 
 var connectionString = $"User Id={oracleUser};Password={oraclePassword};Data Source={oracleDataSource}";
 
