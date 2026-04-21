@@ -143,21 +143,39 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-try
+// Run migrations with retry logic
+var retryCount = 0;
+const int maxRetries = 30;
+const int delayMs = 1000;
+
+while (retryCount < maxRetries)
 {
-    using (var scope = app.Services.CreateScope())
+    try
     {
-        var db = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-            
-        if (db.Database.CanConnect())
+        using (var scope = app.Services.CreateScope())
         {
-            db.Database.Migrate();
+            var db = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+            
+            if (db.Database.CanConnect())
+            {
+                db.Database.Migrate();
+                app.Logger.LogInformation("✅ Migrations executed successfully");
+                break;
+            }
         }
     }
-}
-catch (Exception ex)
-{
-    throw new InvalidOperationException("Erro ao conectar ou migrar o banco de dados: " + ex.Message, ex);
+    catch (Exception ex)
+    {
+        retryCount++;
+        if (retryCount >= maxRetries)
+        {
+            throw new InvalidOperationException(
+                $"Failed to connect to database after {maxRetries} attempts. Last error: {ex.Message}", ex);
+        }
+        
+        app.Logger.LogWarning($"⏳ Database not ready yet (attempt {retryCount}/{maxRetries}). Retrying in {delayMs}ms...");
+        await Task.Delay(delayMs);
+    }
 }
 
 app.Run();
