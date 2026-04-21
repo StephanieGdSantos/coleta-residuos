@@ -146,51 +146,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// Run migrations with retry logic
-var retryCount = 0;
-const int maxRetries = 3;
-const int delayMs = 1000;
-
-while (retryCount < maxRetries)
+// Run migrations
+using (var scope = app.Services.CreateScope())
 {
-    try
-    {
-        using (var scope = app.Services.CreateScope())
-        {
-            var db = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-            
-            if (db.Database.CanConnect())
-            {
-                db.Database.Migrate();
-                app.Logger.LogInformation("✅ Migrations executed successfully");
-                break;
-            }
-            else
-            {
-                retryCount++;
-                if (retryCount >= maxRetries)
-                {
-                    throw new InvalidOperationException(
-                        $"Failed to connect to database after {maxRetries} attempts.");
-                }
-                app.Logger.LogWarning($"⏳ Database not ready yet (attempt {retryCount}/{maxRetries}). Retrying in {delayMs}ms...");
-                await Task.Delay(delayMs);
-            }
-        }
-    }
-    catch (Exception ex)
-    {
-        retryCount++;
-        if (retryCount >= maxRetries)
-        {
-            app.Logger.LogError(ex, $"Failed to connect to database after {maxRetries} attempts.");
-            throw new InvalidOperationException(
-                $"Failed to connect to database after {maxRetries} attempts. Last error: {ex.Message}", ex);
-        }
-        
-        app.Logger.LogWarning($"⏳ Database not ready yet (attempt {retryCount}/{maxRetries}). Retrying in {delayMs}ms... Error: {ex.Message}");
-        await Task.Delay(delayMs);
-    }
+    var db = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+    db.Database.Migrate();
 }
 
 app.Run();
