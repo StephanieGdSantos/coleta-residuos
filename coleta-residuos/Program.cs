@@ -14,11 +14,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Adiciona User Secrets apenas em desenvolvimento LOCAL (não em container)
-if (builder.Environment.IsDevelopment() && !File.Exists("/.dockerenv"))
-{
-    builder.Configuration.AddUserSecrets<Program>();
-}
+builder.Configuration.AddUserSecrets<Program>();
 
 var configuration = builder.Configuration;
 
@@ -147,46 +143,21 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// Retry logic para aguardar banco estar pronto antes de migrar
-var maxRetries = 60;
-var delayMs = 2000;
-var retryCount = 0;
-
-Console.WriteLine("⏳ Aguardando banco de dados estar pronto...");
-
-while (retryCount < maxRetries)
+try
 {
-    try
+    using (var scope = app.Services.CreateScope())
     {
-        using (var scope = app.Services.CreateScope())
-        {
-            var db = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+        var db = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
             
-            // Verificar se consegue conectar
-            if (db.Database.CanConnect())
-            {
-                Console.WriteLine("✓ Conexão com banco estabelecida. Executando migrations...");
-                db.Database.Migrate();
-                Console.WriteLine("✓ Migrations concluídas com sucesso.");
-                break;
-            }
-        }
-    }
-    catch (Exception ex)
-    {
-        retryCount++;
-        if (retryCount >= maxRetries)
+        if (db.Database.CanConnect())
         {
-            Console.WriteLine($"✗ Falha ao conectar ao banco após {maxRetries} tentativas.");
-            Console.WriteLine($"Última exceção: {ex.Message}");
-            throw;
+            db.Database.Migrate();
         }
-
-        var waitTime = Math.Min(delayMs * (retryCount + 1) / 1000, 30000);
-        Console.WriteLine($"⏳ Tentativa {retryCount}/{maxRetries} falhou. Aguardando {waitTime}ms antes de tentar novamente...");
-        System.Threading.Thread.Sleep(waitTime);
     }
 }
+catch (Exception ex)
+{
+    throw new InvalidOperationException("Erro ao conectar ou migrar o banco de dados: " + ex.Message, ex);
+}
 
-Console.WriteLine("✓ Aplicação iniciada com sucesso!");
 app.Run();
