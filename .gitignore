@@ -11,6 +11,8 @@
 .env
 .env.local
 .env.*.local
+.env.Development.local
+.env.Production.local
 
 # Build results
 [Dd]ebug/
