@@ -26,6 +26,8 @@
         condition: service_healthy
     env_file:
       - .env
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
 
 volumes:
   db_data:

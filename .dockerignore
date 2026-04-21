@@ -20,6 +20,11 @@
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
+.env
+.env.local
+.env.*.local
+.env.Development.local
+.env.Production.local
 LICENSE
 README.md
 !**/.gitignore
