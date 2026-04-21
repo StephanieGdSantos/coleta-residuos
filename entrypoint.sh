@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "⏳ Waiting 2 minutes before starting the application..."
+echo "Aguardando o banco de dados iniciar."
 sleep 120
-echo "✅ Starting the application now!"
+echo "Iniciando a aplicação."
 exec "$@"

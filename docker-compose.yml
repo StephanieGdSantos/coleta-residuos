@@ -11,11 +11,11 @@
     volumes:
       - db_data:/opt/oracle/oradata
     healthcheck:
-      test: ["CMD", "bash", "-c", "echo 'SELECT 1 FROM DUAL;' | sqlplus system/$${ORACLE_PASSWORD}@localhost:1521/xe"]
+      test: ["CMD", "bash", "-c", "echo 'SELECT 1 FROM DUAL;' | sqlplus system/$${ORACLE_PASSWORD}@db:1521/xe"]
       interval: 10s
       timeout: 5s
-      retries: 60
-      start_period: 40s
+      retries: 120
+      start_period: 60s
 
   api:
     image: stephaniegomes/coleta-residuos:latest
