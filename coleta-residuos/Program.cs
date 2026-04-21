@@ -31,9 +31,12 @@ if (string.IsNullOrWhiteSpace(oraclePassword))
 
 #region Banco de dados
 var oracleUser = configuration["Oracle:User"] ?? "system";
-var oracleDataSource = configuration["Oracle:DataSource"] ?? "localhost:1521/xe";
+var oracleHost = configuration["Oracle:Host"] ?? "localhost";
+var oraclePort = configuration["Oracle:Port"] ?? "1521";
+var oracleService = configuration["Oracle:Service"] ?? "xe";
 var isDevelopment = builder.Environment.IsDevelopment();
 
+var oracleDataSource = $"{oracleHost}:{oraclePort}/{oracleService}";
 var connectionString = $"User Id={oracleUser};Password={oraclePassword};Data Source={oracleDataSource}";
 
 builder.Services.AddDbContext<DatabaseContext>(
