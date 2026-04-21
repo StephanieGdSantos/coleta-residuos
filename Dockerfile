@@ -18,4 +18,7 @@ FROM base AS final
 ARG ASPNETCORE_ENVIRONMENT=Production
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "coleta-residuos.dll"]
+COPY entrypoint.sh .
+RUN chmod +x ./entrypoint.sh
+ENTRYPOINT ["./entrypoint.sh"]
+CMD ["dotnet", "coleta-residuos.dll"]
