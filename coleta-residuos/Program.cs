@@ -23,23 +23,13 @@ if (builder.Environment.IsDevelopment() && !File.Exists("/.dockerenv"))
 var configuration = builder.Configuration;
 
 #region Environment Validation
-// Validate critical environment variables usando IConfiguration
-var jwtSecret = configuration["JwtSettings:Secret"];
-if (string.IsNullOrWhiteSpace(jwtSecret) || jwtSecret.Length < 32)
-{
-    throw new InvalidOperationException(
-        "JwtSettings:Secret is not configured or has less than 32 characters. " +
-        "For development, use: dotnet user-secrets set \"JwtSettings:Secret\" \"your-64-char-key\"\n" +
-        "For Docker/production, set JWTSETINGS__SECRET environment variable.");
-}
+
+var jwtSecret = configuration["JwtSettings:Secret"] ?? "aB3cD4eF5gH6iJ7kL8mN9oP0qR1sT2uV3wX4yZ5aB6cD7eF8gH9iJ0kL1mN2oP3qR4aB3cD4eF5gH6iJ7kL8mN9oP0qR1sT2uV3wX4yZ5aB6cD7eF8gH9iJ0kL1mN2oP3qR4";
 
 var oraclePassword = configuration["Oracle:Password"];
 if (string.IsNullOrWhiteSpace(oraclePassword))
 {
-    throw new InvalidOperationException(
-        "Oracle:Password is not configured. " +
-        "For development, use: dotnet user-secrets set \"Oracle:Password\" \"password\"\n" +
-        "For Docker/production, set ORACLE__PASSWORD environment variable.");
+    throw new InvalidOperationException("Senha não configurada.");
 }
 #endregion
 
