@@ -76,7 +76,9 @@ namespace coleta_residuos.Controllers
                     return BadRequest("Ponto de Coleta não encontrado.");
 
                 _alertaService.Criar(alerta);
-                return CreatedAtAction(nameof(Post), new { id = alerta.Id }, criarAlertaViewModel);
+
+                var alertaCriado = _mapper.Map<AlertaViewModel>(alerta);
+                return CreatedAtAction(nameof(Post), alertaCriado);
             }
             catch (Exception ex)
             {
