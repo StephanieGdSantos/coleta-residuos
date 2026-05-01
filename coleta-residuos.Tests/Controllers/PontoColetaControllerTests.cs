@@ -170,16 +170,19 @@ namespace coleta_residuos.Tests.Controllers
                 new ResiduoModel { Id = 1 },
                 new ResiduoModel { Id = 2 }
             };
+            var pontoViewModel = new PontoColetaViewModel { Id = 1, Nome = "Ponto", Endereco = "Endereço", CapacidadeMaximaKg = 100 };
             _mapperMock.Setup(m => m.Map<PontoColetaModel>(criarViewModel)).Returns(pontoModel);
             _residuoServiceMock.Setup(s => s.Listar(0, 10)).Returns(residuos);
+            _mapperMock.Setup(m => m.Map<PontoColetaViewModel>(pontoModel)).Returns(pontoViewModel);
 
             // Act
             var resultado = _controller.Post(criarViewModel);
 
             // Assert
             var createdResult = Assert.IsType<CreatedAtActionResult>(resultado.Result);
-            Assert.Equal(criarViewModel, createdResult.Value);
+            Assert.Equal(pontoViewModel, createdResult.Value);
         }
+
 
         [Fact]
         public void Post_DeveRetornar400_QuandoResiduosNaoExistem()

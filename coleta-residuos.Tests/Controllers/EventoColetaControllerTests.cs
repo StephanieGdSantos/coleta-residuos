@@ -113,15 +113,18 @@ namespace coleta_residuos.Tests.Controllers
                 TipoEvento = TipoEvento.Deposito
             };
             var eventoModel = new EventoColetaModel { Id = 1 };
+            var eventoViewModel = new EventoColetaViewModel { Id = 1 };
             _mapperMock.Setup(m => m.Map<EventoColetaModel>(criarViewModel)).Returns(eventoModel);
+            _mapperMock.Setup(m => m.Map<EventoColetaViewModel>(eventoModel)).Returns(eventoViewModel);
 
             // Act
             var resultado = _controller.Post(criarViewModel);
 
             // Assert
             var createdResult = Assert.IsType<CreatedAtActionResult>(resultado.Result);
-            Assert.Equal(criarViewModel, createdResult.Value);
+            Assert.Equal(eventoViewModel, createdResult.Value);
         }
+
 
         [Fact]
         public void Post_DeveRetornar400_QuandoException()
