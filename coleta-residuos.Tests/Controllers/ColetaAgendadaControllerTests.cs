@@ -114,14 +114,18 @@ namespace coleta_residuos.Tests.Controllers
                 PontoColetaId = 1
             };
             var coletaModel = new ColetaAgendadaModel { Id = 1 };
+            var coletaViewModel = new ColetaAgendadaViewModel { Id = 1 };
+
             _mapperMock.Setup(m => m.Map<ColetaAgendadaModel>(criarViewModel)).Returns(coletaModel);
+            _coletaAgendadaServiceMock.Setup(s => s.Criar(coletaModel));
+            _mapperMock.Setup(m => m.Map<ColetaAgendadaViewModel>(coletaModel)).Returns(coletaViewModel);
 
             // Act
             var resultado = _controller.Post(criarViewModel);
 
             // Assert
             var createdResult = Assert.IsType<CreatedAtActionResult>(resultado.Result);
-            Assert.Equal(criarViewModel, createdResult.Value);
+            Assert.Equal(coletaViewModel, createdResult.Value);
         }
 
         [Fact]

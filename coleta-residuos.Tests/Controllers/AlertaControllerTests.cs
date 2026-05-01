@@ -107,8 +107,10 @@ namespace coleta_residuos.Tests.Controllers
             // Arrange
             var criarAlertaViewModel = new CriarAlertaViewModel { PontoColetaId = 1, Mensagem = "Teste" };
             var alertaModel = new AlertaModel { Id = 1, PontoColetaId = 1, Mensagem = "Teste" };
+            var alertaViewModel = new AlertaViewModel { Id = 1, PontoColetaId = 1, Mensagem = "Teste" };
             _mapperMock.Setup(m => m.Map<AlertaModel>(criarAlertaViewModel)).Returns(alertaModel);
             _pontoColetaServiceMock.Setup(s => s.ObterPorId(1)).Returns(new PontoColetaModel { Id = 1 });
+            _mapperMock.Setup(m => m.Map<AlertaViewModel>(alertaModel)).Returns(alertaViewModel);
 
             // Act
             var resultado = _controller.Post(criarAlertaViewModel);
@@ -117,7 +119,9 @@ namespace coleta_residuos.Tests.Controllers
             _alertaServiceMock.Verify(s => s.Criar(It.IsAny<AlertaModel>()), Times.Once);
             var createdAtActionResult = Assert.IsType<CreatedAtActionResult>(resultado.Result);
             Assert.Equal(201, createdAtActionResult.StatusCode);
+            Assert.Equal(alertaViewModel, createdAtActionResult.Value);
         }
+
 
         [Fact]
         public void Post_DeveRetornar400_QuandoPontoColetaNaoExistir()

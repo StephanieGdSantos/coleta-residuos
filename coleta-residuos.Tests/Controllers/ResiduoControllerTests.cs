@@ -157,15 +157,18 @@ namespace coleta_residuos.Tests.Controllers
                 Descricao = "Descrição"
             };
             var residuoModel = new ResiduoModel { Id = 1 };
+            var residuoViewModel = new ResiduoViewModel { Id = 1, Nome = "Resíduo", Categoria = "Categoria", Descricao = "Descrição" };
             _mapperMock.Setup(m => m.Map<ResiduoModel>(criarViewModel)).Returns(residuoModel);
+            _mapperMock.Setup(m => m.Map<ResiduoViewModel>(residuoModel)).Returns(residuoViewModel);
 
             // Act
             var resultado = _controller.Post(criarViewModel);
 
             // Assert
             var createdResult = Assert.IsType<CreatedAtActionResult>(resultado.Result);
-            Assert.Equal(criarViewModel, createdResult.Value);
+            Assert.Equal(residuoViewModel, createdResult.Value);
         }
+
 
         [Fact]
         public void Post_DeveRetornar400_QuandoException()
