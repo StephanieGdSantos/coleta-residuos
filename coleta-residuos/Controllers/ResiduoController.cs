@@ -85,26 +85,23 @@ namespace coleta_residuos.Controllers
 
         [HttpPost]
         [Authorize(Roles = "operador,gerente")]
-        public ActionResult<ResiduoViewModel> Post([FromBody] CriarResiduoViewModel criarResiduoViewModel)
+        public IActionResult Post([FromBody] CriarResiduoViewModel criarResiduoViewModel)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             var residuo = _mapper.Map<ResiduoModel>(criarResiduoViewModel);
+
             try
             {
                 _residuoService.Criar(residuo);
 
-                // LOG DE DIAGNÓSTICO
-                Console.WriteLine($"DEBUG: ID no Model após Criar: {residuo.Id}");
-
                 var residuoCriado = _mapper.Map<ResiduoViewModel>(residuo);
 
-                Console.WriteLine($"DEBUG: ID no ViewModel após Mapper: {residuoCriado.Id}");
-
-                return CreatedAtAction(nameof(Get), new { id = residuo.Id }, residuoCriado);
+                 return CreatedAtAction(nameof(Get), new { id = residuo.Id }, residuoCriado);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"ERRO NO POST: {ex.Message}");
-                return BadRequest(ex.Message);
+                return BadRequest(new { message = "Erro ao criar resíduo", details = ex.Message });
             }
         }
 
