@@ -94,7 +94,7 @@ namespace coleta_residuos.Controllers
                 _residuoService.Criar(residuo);
 
                 var residuoCriado = _mapper.Map<ResiduoViewModel>(residuo);
-                return CreatedAtAction(nameof(Post), residuoCriado);
+                return CreatedAtAction(nameof(Get), residuoCriado);
             }
             catch (Exception ex)
             {
