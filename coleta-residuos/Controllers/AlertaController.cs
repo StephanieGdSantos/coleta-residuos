@@ -78,7 +78,7 @@ namespace coleta_residuos.Controllers
                 _alertaService.Criar(alerta);
 
                 var alertaCriado = _mapper.Map<AlertaViewModel>(alerta);
-                return CreatedAtAction(nameof(Post), alertaCriado);
+                return CreatedAtAction(nameof(Get), alertaCriado);
             }
             catch (Exception ex)
             {

@@ -71,7 +71,7 @@ namespace coleta_residuos.Controllers
                 _coletaAgendadaService.Criar(coleta);
 
                 var coletaCriada = _mapper.Map<ColetaAgendadaViewModel>(coleta);
-                return CreatedAtAction(nameof(Post), coletaCriada);
+                return CreatedAtAction(nameof(Get), coletaCriada);
             }
             catch (Exception ex)
             {

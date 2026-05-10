@@ -112,7 +112,7 @@ namespace coleta_residuos.Controllers
                 _pontoColetaService.Criar(pontoColeta);
 
                 var pontoCriado = _mapper.Map<PontoColetaViewModel>(pontoColeta);
-                return CreatedAtAction(nameof(Post), pontoCriado);
+                return CreatedAtAction(nameof(Get), pontoCriado);
             }
             catch (Exception ex)
             {
