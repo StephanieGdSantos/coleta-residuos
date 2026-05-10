@@ -88,16 +88,22 @@ namespace coleta_residuos.Controllers
         public ActionResult<ResiduoViewModel> Post([FromBody] CriarResiduoViewModel criarResiduoViewModel)
         {
             var residuo = _mapper.Map<ResiduoModel>(criarResiduoViewModel);
-
             try
             {
                 _residuoService.Criar(residuo);
 
+                // LOG DE DIAGNÓSTICO
+                Console.WriteLine($"DEBUG: ID no Model após Criar: {residuo.Id}");
+
                 var residuoCriado = _mapper.Map<ResiduoViewModel>(residuo);
-                return CreatedAtAction(nameof(Get), residuoCriado);
+
+                Console.WriteLine($"DEBUG: ID no ViewModel após Mapper: {residuoCriado.Id}");
+
+                return CreatedAtAction(nameof(Get), new { id = residuo.Id }, residuoCriado);
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"ERRO NO POST: {ex.Message}");
                 return BadRequest(ex.Message);
             }
         }
