@@ -71,7 +71,7 @@ namespace coleta_residuos.Controllers
                 _eventoColetaService.Criar(evento);
 
                 var eventoCriado = _mapper.Map<EventoColetaViewModel>(evento);
-                return CreatedAtAction(nameof(Post), eventoCriado);
+                return CreatedAtAction(nameof(Get), eventoCriado);
             }
             catch (Exception ex)
             {
